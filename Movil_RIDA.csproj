@@ -1,0 +1,291 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2BA0A647-AB7F-4A23-9315-2BBEBB5DA5B5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Movil_RIDA</RootNamespace>
+    <AssemblyName>Movil_RIDA</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>WindowsCE</PlatformFamilyName>
+    <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
+    <OSVersion>5.0</OSVersion>
+    <DeployDirSuffix>Movil_RIDA</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows CE</NativePlatformName>
+    <FormFactorID>
+    </FormFactorID>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <ApplicationIcon>HT.ico</ApplicationIcon>
+    <StartupObject>Movil_RIDA.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=3.0.3600.0, Culture=neutral, PublicKeyToken=3be235df1c8d2ad3, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbastoPkg\Abastecer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\Abastecer.Designer.cs">
+      <DependentUpon>Abastecer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Acceso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Acceso.Designer.cs">
+      <DependentUpon>Acceso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\AbastoPkg.cs" />
+    <Compile Include="Clases\Conteo.cs" />
+    <Compile Include="AbastoPkg\PrincipalAbastoPkg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\PrincipalAbastoPkg.designer.cs">
+      <DependentUpon>PrincipalAbastoPkg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbastoPkg\Excepcion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\Excepcion.designer.cs">
+      <DependentUpon>Excepcion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbastoPkg\ReAbastecer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\ReAbastecer.designer.cs">
+      <DependentUpon>ReAbastecer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbastoPkg\RecolectarCantidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\RecolectarCantidades.designer.cs">
+      <DependentUpon>RecolectarCantidades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbastoPkg\RecolectarLoc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\RecolectarLoc.designer.cs">
+      <DependentUpon>RecolectarLoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbastoPkg\Recolectar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbastoPkg\Recolectar.designer.cs">
+      <DependentUpon>Recolectar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Conteos\ConfirmarLocalizacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Conteos\ConfirmarLocalizacion.Designer.cs">
+      <DependentUpon>ConfirmarLocalizacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Conteos\PrincipalConteos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Conteos\PrincipalConteos.Designer.cs">
+      <DependentUpon>PrincipalConteos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Global.cs" />
+    <Compile Include="Conteos\ExcepcionConteo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Conteos\ExcepcionConteo.Designer.cs">
+      <DependentUpon>ExcepcionConteo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Disponible.cs" />
+    <Compile Include="Disponible\PrincipalDisponible.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Disponible\PrincipalDisponible.Designer.cs">
+      <DependentUpon>PrincipalDisponible.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Disponible\LocalizacionesDisponible.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Disponible\LocalizacionesDisponible.Designer.cs">
+      <DependentUpon>LocalizacionesDisponible.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recepcion\Partidas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\Partidas.designer.cs">
+      <DependentUpon>Partidas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Recepcion\PrincipalRecepcion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Recepcion\PrincipalRecepcion.designer.cs">
+      <DependentUpon>PrincipalRecepcion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Inspeccion\PrincipalInspeccion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inspeccion\PrincipalInspeccion.designer.cs">
+      <DependentUpon>PrincipalInspeccion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuPrincipal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuPrincipal.Designer.cs">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Inspeccion.cs" />
+    <Compile Include="Clases\Producto.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AbastoPkg\Abastecer.resx">
+      <DependentUpon>Abastecer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\PrincipalAbastoPkg.resx">
+      <DependentUpon>PrincipalAbastoPkg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\Excepcion.resx">
+      <DependentUpon>Excepcion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\ReAbastecer.resx">
+      <DependentUpon>ReAbastecer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\RecolectarCantidades.resx">
+      <DependentUpon>RecolectarCantidades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\RecolectarLoc.resx">
+      <DependentUpon>RecolectarLoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbastoPkg\Recolectar.resx">
+      <DependentUpon>Recolectar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceso.resx">
+      <DependentUpon>Acceso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Conteos\ConfirmarLocalizacion.resx">
+      <DependentUpon>ConfirmarLocalizacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Conteos\ExcepcionConteo.resx">
+      <DependentUpon>ExcepcionConteo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Conteos\PrincipalConteos.resx">
+      <DependentUpon>PrincipalConteos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Disponible\PrincipalDisponible.resx">
+      <DependentUpon>PrincipalDisponible.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Disponible\LocalizacionesDisponible.resx">
+      <DependentUpon>LocalizacionesDisponible.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\Partidas.resx">
+      <DependentUpon>Partidas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Recepcion\PrincipalRecepcion.resx">
+      <DependentUpon>PrincipalRecepcion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inspeccion\PrincipalInspeccion.resx">
+      <DependentUpon>PrincipalInspeccion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuPrincipal.resx">
+      <DependentUpon>MenuPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Conteos\RegistrarConteo.resx">
+      <DependentUpon>RegistrarConteo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Disponible\RegistrarDisponible.resx">
+      <DependentUpon>RegistrarDisponible.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilerias.resx">
+      <DependentUpon>Utilerias.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Clases\Recepcion.cs" />
+    <Compile Include="Conteos\RegistrarConteo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Conteos\RegistrarConteo.Designer.cs">
+      <DependentUpon>RegistrarConteo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Disponible\RegistrarDisponible.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Disponible\RegistrarDisponible.Designer.cs">
+      <DependentUpon>RegistrarDisponible.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilerias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilerias.Designer.cs">
+      <DependentUpon>Utilerias.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HT.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Iconos\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
