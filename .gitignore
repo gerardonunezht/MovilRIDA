@@ -1,0 +1,9 @@
+*.exe
+bin/Debug/Movil_RIDA.exe
+bin/Debug/Movil_RIDA.pdb
+Movil_RIDA.suo
+obj/Debug/Movil_RIDA.csproj.FileListAbsolute.txt
+obj/Debug/Movil_RIDA.exe
+obj/Debug/Movil_RIDA.csproj.GenerateResource.Cache
+obj/Debug/Movil_RIDA.pdb
+obj/Debug/ResolveAssemblyReference.cache
