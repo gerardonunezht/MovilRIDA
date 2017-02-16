@@ -9,7 +9,7 @@ namespace Movil_RIDA
 
         Conteo conteo = new Conteo();
 
-        
+
         public PrincipalConteos()
         {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace Movil_RIDA
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            if (Conteo.ClaveContar!=null)
+            if (Conteo.ClaveContar != null)
             {
                 conteo.congelarExistenciasConteo(Conteo.NoConteo, Conteo.ClaveContar);
                 ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
@@ -63,7 +63,7 @@ namespace Movil_RIDA
             Conteo.NoConteo = dgProgramados[rowIndex, 0].ToString().Trim();
             Conteo.ClaveContar = dgProgramados[rowIndex, 1].ToString().Trim();
             Conteo.DescripcionContar = dgProgramados[rowIndex, 2].ToString().Trim();
-            lbDescripcion.Text = Conteo.DescripcionContar;                               
+            lbDescripcion.Text = Conteo.DescripcionContar;
         }
 
     }
