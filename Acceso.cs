@@ -58,6 +58,16 @@ namespace Movil_RIDA
                                 fConteo.Show();
                                 this.Hide();
                                 break;
+                            case "RECEPCION_PLANTA":
+                                PrincipalRecepcionPlanta fRcpPlanta = new PrincipalRecepcionPlanta();
+                                fRcpPlanta.Show();
+                                this.Hide();
+                                break;
+                            case "DISPONIBLE_PLANTA":
+                                PrincipalDisponiblePlanta fDisponiblePlanta = new PrincipalDisponiblePlanta();
+                                fDisponiblePlanta.Show();
+                                this.Hide();
+                                break;
                             default:
                                 break;
                         }
@@ -107,9 +117,10 @@ namespace Movil_RIDA
 
             //Verificamos a que servidor nos estamos conectando; pruebas o producción, si es pruebas
             //lo mostramos en pantalla
-            if (Properties.Resources.cnStr.Contains("Server=172.16.1.53"))
+            if (Properties.Resources.cnStr.Contains("Server=172.16.1.42"))
             {
                 lbServidor.Visible = true;
+                lbServidor.ForeColor = System.Drawing.Color.Green;
                 lbServidor.Text = "Servidor: PRUEBAS";
             }
             else
