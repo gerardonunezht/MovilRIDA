@@ -31,8 +31,8 @@ namespace Movil_RIDA
         {
             Global.Aplicacion = "INSPECCION";
             Global.Version = "1.0";
-            Global.IdProcesoADN = "10"; 
-            Acceso fAcceso = new Acceso();
+            Global.IdProcesoADN = "10";
+            Login fAcceso = new Login();
             fAcceso.Show();
         }
 
@@ -41,7 +41,7 @@ namespace Movil_RIDA
             Global.Aplicacion = "RECEPCION";
             Global.Version = "1.2";
             Global.IdProcesoADN = "5";
-            Acceso fAcceso = new Acceso();
+            Login fAcceso = new Login();
             fAcceso.Show();
         }
 
@@ -50,7 +50,7 @@ namespace Movil_RIDA
             Global.Aplicacion = "ABASTO PKG";
             Global.Version = "3.0";
             Global.IdProcesoADN = "7";
-            Acceso fAcceso = new Acceso();
+            Login fAcceso = new Login();
             fAcceso.Show();
         }
 
@@ -58,8 +58,8 @@ namespace Movil_RIDA
         {
             Global.Aplicacion = "CONTEOS";
             Global.Version = "2.0";
-            Global.IdProcesoADN = "11"; 
-            Acceso fAcceso = new Acceso();
+            Global.IdProcesoADN = "11";
+            Login fAcceso = new Login();
             fAcceso.Show();
         }
 
@@ -68,13 +68,31 @@ namespace Movil_RIDA
             Global.Aplicacion = "DISPONIBLE";
             Global.Version = "1.0";
             Global.IdProcesoADN = "12";
-            Acceso fAcceso = new Acceso();
+            Login fAcceso = new Login();
             fAcceso.Show();            
         }
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
             lbCompilacion.Text = "Versión compilación:  "+GetCurrentPublishVersion();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Global.Aplicacion = "RECEPCION_PLANTA";
+            Global.Version = "1.0";
+            Global.IdProcesoADN = "5";
+            Login fAcceso = new Login();
+            fAcceso.Show();     
+        }
+
+        private void btnDisponiblePlanta_Click(object sender, EventArgs e)
+        {
+            Global.Aplicacion = "DISPONIBLE_PLANTA";
+            Global.Version = "1.0";
+            Global.IdProcesoADN = "12";
+            Login fAcceso = new Login();
+            fAcceso.Show();  
         }
     }
 }

@@ -82,3 +82,37 @@ C:\ProyectosVisualStudio2008\MovilRIDA\obj\Debug\Movil_RIDA.Utilerias.resources
 C:\ProyectosVisualStudio2008\MovilRIDA\obj\Debug\Movil_RIDA.csproj.GenerateResource.Cache
 C:\ProyectosVisualStudio2008\MovilRIDA\obj\Debug\Movil_RIDA.exe
 C:\ProyectosVisualStudio2008\MovilRIDA\obj\Debug\Movil_RIDA.pdb
+C:\Proyectos VS2008\MovilRIDA\bin\Debug\Movil_RIDA.exe
+C:\Proyectos VS2008\MovilRIDA\bin\Debug\Movil_RIDA.pdb
+C:\Proyectos VS2008\MovilRIDA\bin\Debug\System.Data.SqlClient.dll
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\ResolveAssemblyReference.cache
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Abastecer.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalAbastoPkg.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Excepcion.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ReAbastecer.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RecolectarCantidades.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RecolectarLoc.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Recolectar.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Acceso.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ConfirmarLocalizacion.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ExcepcionConteo.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalConteos.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalDisponible.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.LocalizacionesDisponible.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Partidas.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalInspeccion.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.MenuPrincipal.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Properties.Resources.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RegistrarConteo.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RegistrarDisponible.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Utilerias.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.csproj.GenerateResource.Cache
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.exe
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.pdb
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalRecepcionPlanta.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalRecepcion.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PartidasPlanta.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalDisponiblePlanta.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.LocalizacionesDisponiblePlanta.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RegistrarDisponiblePlanta.resources
+C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Login.resources
