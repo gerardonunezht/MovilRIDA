@@ -46,8 +46,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lbTrnf = new System.Windows.Forms.Label();
             this.tmRegistrarCanidades = new System.Windows.Forms.Timer();
-            this.btnExcepcion = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTruncar = new System.Windows.Forms.Button();
+            this.btnCero = new System.Windows.Forms.Button();
             this.pbInspeccion = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +56,7 @@
             // lbCantidad
             // 
             this.lbCantidad.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lbCantidad.Location = new System.Drawing.Point(51, 193);
+            this.lbCantidad.Location = new System.Drawing.Point(51, 138);
             this.lbCantidad.Name = "lbCantidad";
             this.lbCantidad.Size = new System.Drawing.Size(87, 20);
             this.lbCantidad.Text = "Cantidad";
@@ -63,7 +64,7 @@
             // 
             // txtCantidad
             // 
-            this.txtCantidad.Location = new System.Drawing.Point(151, 189);
+            this.txtCantidad.Location = new System.Drawing.Point(151, 134);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(76, 23);
             this.txtCantidad.TabIndex = 3;
@@ -72,26 +73,27 @@
             // lbMultiplo
             // 
             this.lbMultiplo.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lbMultiplo.Location = new System.Drawing.Point(52, 164);
+            this.lbMultiplo.Location = new System.Drawing.Point(51, 167);
             this.lbMultiplo.Name = "lbMultiplo";
             this.lbMultiplo.Size = new System.Drawing.Size(86, 20);
-            this.lbMultiplo.Text = "Múltiplo";
+            this.lbMultiplo.Text = "de";
             this.lbMultiplo.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // txtMultiplo
             // 
             this.txtMultiplo.BackColor = System.Drawing.Color.Yellow;
             this.txtMultiplo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMultiplo.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.txtMultiplo.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.txtMultiplo.ForeColor = System.Drawing.Color.Red;
             this.txtMultiplo.Location = new System.Drawing.Point(151, 161);
             this.txtMultiplo.Name = "txtMultiplo";
             this.txtMultiplo.ReadOnly = true;
-            this.txtMultiplo.Size = new System.Drawing.Size(76, 23);
+            this.txtMultiplo.Size = new System.Drawing.Size(76, 26);
             this.txtMultiplo.TabIndex = 1;
             // 
             // txtCB
             // 
-            this.txtCB.Location = new System.Drawing.Point(52, 135);
+            this.txtCB.Location = new System.Drawing.Point(52, 108);
             this.txtCB.Name = "txtCB";
             this.txtCB.Size = new System.Drawing.Size(176, 23);
             this.txtCB.TabIndex = 0;
@@ -154,11 +156,12 @@
             // 
             this.lbMultAbasto.BackColor = System.Drawing.Color.Yellow;
             this.lbMultAbasto.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.lbMultAbasto.Location = new System.Drawing.Point(146, 107);
+            this.lbMultAbasto.Location = new System.Drawing.Point(151, 194);
             this.lbMultAbasto.Name = "lbMultAbasto";
-            this.lbMultAbasto.Size = new System.Drawing.Size(39, 20);
+            this.lbMultAbasto.Size = new System.Drawing.Size(76, 20);
             this.lbMultAbasto.Text = "Multiplo Abasto";
             this.lbMultAbasto.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbMultAbasto.Visible = false;
             // 
             // lbLocalizacion
             // 
@@ -175,19 +178,21 @@
             this.lbTotEmp.BackColor = System.Drawing.Color.Yellow;
             this.lbTotEmp.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.lbTotEmp.ForeColor = System.Drawing.Color.Red;
-            this.lbTotEmp.Location = new System.Drawing.Point(9, 107);
+            this.lbTotEmp.Location = new System.Drawing.Point(12, 176);
             this.lbTotEmp.Name = "lbTotEmp";
             this.lbTotEmp.Size = new System.Drawing.Size(45, 20);
             this.lbTotEmp.Text = "Empaques";
             this.lbTotEmp.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbTotEmp.Visible = false;
             // 
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(60, 111);
+            this.label5.Location = new System.Drawing.Point(14, 198);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(88, 15);
-            this.label5.Text = "empaques de:";
+            this.label5.Size = new System.Drawing.Size(134, 15);
+            this.label5.Text = "codigo";
+            this.label5.Visible = false;
             // 
             // lbTrnf
             // 
@@ -195,30 +200,20 @@
             this.lbTrnf.Location = new System.Drawing.Point(12, 5);
             this.lbTrnf.Name = "lbTrnf";
             this.lbTrnf.Size = new System.Drawing.Size(217, 15);
-            this.lbTrnf.Text = "TRNF";
+            this.lbTrnf.Text = "ID:";
             // 
             // tmRegistrarCanidades
             // 
             this.tmRegistrarCanidades.Interval = 1000;
             // 
-            // btnExcepcion
-            // 
-            this.btnExcepcion.BackColor = System.Drawing.Color.Red;
-            this.btnExcepcion.ForeColor = System.Drawing.Color.White;
-            this.btnExcepcion.Location = new System.Drawing.Point(9, 264);
-            this.btnExcepcion.Name = "btnExcepcion";
-            this.btnExcepcion.Size = new System.Drawing.Size(220, 25);
-            this.btnExcepcion.TabIndex = 62;
-            this.btnExcepcion.Text = "Registrar Excepción";
-            this.btnExcepcion.Click += new System.EventHandler(this.btnExcepcion_Click);
-            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.Controls.Add(this.btnTruncar);
+            this.panel1.Controls.Add(this.btnCero);
             this.panel1.Controls.Add(this.pbInspeccion);
             this.panel1.Controls.Add(this.lbClave);
-            this.panel1.Controls.Add(this.btnExcepcion);
             this.panel1.Controls.Add(this.txtMultiplo);
             this.panel1.Controls.Add(this.txtCB);
             this.panel1.Controls.Add(this.lbDescripcion);
@@ -238,10 +233,32 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(245, 295);
             // 
+            // btnTruncar
+            // 
+            this.btnTruncar.BackColor = System.Drawing.Color.Red;
+            this.btnTruncar.ForeColor = System.Drawing.Color.White;
+            this.btnTruncar.Location = new System.Drawing.Point(9, 264);
+            this.btnTruncar.Name = "btnTruncar";
+            this.btnTruncar.Size = new System.Drawing.Size(100, 25);
+            this.btnTruncar.TabIndex = 76;
+            this.btnTruncar.Text = "Truncar";
+            this.btnTruncar.Click += new System.EventHandler(this.btnTruncar_Click);
+            // 
+            // btnCero
+            // 
+            this.btnCero.BackColor = System.Drawing.Color.Red;
+            this.btnCero.ForeColor = System.Drawing.Color.White;
+            this.btnCero.Location = new System.Drawing.Point(129, 264);
+            this.btnCero.Name = "btnCero";
+            this.btnCero.Size = new System.Drawing.Size(100, 25);
+            this.btnCero.TabIndex = 75;
+            this.btnCero.Text = "Cero";
+            this.btnCero.Click += new System.EventHandler(this.btnCero_Click);
+            // 
             // pbInspeccion
             // 
             this.pbInspeccion.Image = ((System.Drawing.Image)(resources.GetObject("pbInspeccion.Image")));
-            this.pbInspeccion.Location = new System.Drawing.Point(14, 135);
+            this.pbInspeccion.Location = new System.Drawing.Point(14, 108);
             this.pbInspeccion.Name = "pbInspeccion";
             this.pbInspeccion.Size = new System.Drawing.Size(32, 23);
             this.pbInspeccion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -284,9 +301,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lbTrnf;
         private System.Windows.Forms.Timer tmRegistrarCanidades;
-        private System.Windows.Forms.Button btnExcepcion;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pbInspeccion;
+        private System.Windows.Forms.Button btnCero;
+        private System.Windows.Forms.Button btnTruncar;
 
     }
 }

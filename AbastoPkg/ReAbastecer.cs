@@ -2,14 +2,14 @@
 using System.Data;
 using System.Windows.Forms;
 
-
 namespace Movil_RIDA
 {
     public partial class ReAbastecer : Form
     {
 
         AbastoPkg abasto = new AbastoPkg();
-
+        Recoleccion repositorio = new Recoleccion();
+        
         //Variables Locales     
         private string ClaveReAbastecida = "";//Almacena la clave interna (HT) obtenida de buscar el codigo de barras correspondiente
         //private float MultiploClave;//Almacena el múltiplo asignado a dicha clave interna (HT) obtenida de buscar el codigo de barras correspondiente
@@ -29,23 +29,27 @@ namespace Movil_RIDA
               Se solicitando las partidas a Re-Abastecer correspondientes a la transferencia actual            
             */
 
-            DataRow drPartida;
+            
             DataSet dsPartidas = new DataSet();
+            DataTable dtPartidas;
+            DataRow drPartida;
 
 
             try
             {
 
             //Obtenemos la primer partida recolectada a Re-Abastecer
-            dsPartidas = abasto.ObtenerRecoleccionParaReAbastecer(AbastoPkg.Transferencia);
-
+            //dsPartidas = abasto.ObtenerRecoleccionParaReAbastecer(AbastoPkg.Transferencia);
+            dtPartidas = repositorio.ObtenerRecoleccionParaReAbastecer(Recoleccion.ID);
 
 
                 //Si la consulta regresa datos (Partidas), entonces
-                if (dsPartidas.Tables[0].Rows.Count > 0)
+                if (dtPartidas.Rows.Count > 0)
                 {
                     //Mostramos en pantalla la clave del producto a Re-Abastecer y la Localización donde se deberá de colocar 
-                    drPartida = dsPartidas.Tables[0].Rows[0];
+                    //drPartida = dsPartidas.Tables[0].Rows[0];
+                    drPartida = dtPartidas.Rows[0];
+
                     //lbNoTransferencia.Text = lbNoTransferencia.Text = "No. Transf: " + drPartida["Transferencia"].ToString();
                     lbConfirmarProducto.Text = drPartida["InvtId"].ToString(); //
                     lbConfirmarLocalizacion.Text = drPartida["LocDestino"].ToString(); //
@@ -126,7 +130,7 @@ namespace Movil_RIDA
             */
 
              //Agregamos la recolección y regresamos la suma total de lo recolectado            
-            abasto.AgregarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia), pClaveReAbastecer, lbConfirmarLocalizacion.Text, pCantidadReAbastecida, Global.Usuario, out SumaCantidadReAbastecida);
+            repositorio.AgregarReAbasto(Recoleccion.ID, pClaveReAbastecer, lbConfirmarLocalizacion.Text, pCantidadReAbastecida, Global.Usuario, out SumaCantidadReAbastecida);
             
             //Asignamos la suma total de lo recolectado    
             TotalReabastecido = Convert.ToSingle(SumaCantidadReAbastecida);
@@ -138,15 +142,16 @@ namespace Movil_RIDA
             if (TotalReabastecido == Convert.ToSingle(CantidadPorReabastecer))//Convert.ToSingle(Metodos.PorRecolectarLoc))
             {
                 //Se registra el total de recolectado de la localizacón como detalle de transferencia                
-                abasto.ReAbastoCompletado(Convert.ToInt32(AbastoPkg.Transferencia), pClaveReAbastecer, lbConfirmarLocalizacion.Text);
-
+                repositorio.ReAbastoCompletado(Recoleccion.ID, pClaveReAbastecer, lbConfirmarLocalizacion.Text);
                 //Indicamos que la recolección de la localización ha sido completada
                 //RecoleccionLocCompleta = "Si";
             }
             else if (TotalReabastecido > Convert.ToSingle(CantidadPorReabastecer))
             {
                 MessageBox.Show("NO está permitido rabastecer más unidades de las solicitadas. Se elimina la partida.", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
-                abasto.EliminarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia), pClaveReAbastecer, AbastoPkg.LocalizacionPkgDestino, pCantidadReAbastecida);
+                //abasto.EliminarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia), pClaveReAbastecer, AbastoPkg.LocalizacionPkgDestino, pCantidadReAbastecida);
+                repositorio.EliminarReAbasto(Recoleccion.ID, pClaveReAbastecer, Recoleccion.LocalizacionPkg, pCantidadReAbastecida);
+
                 txtConfirmarProducto.Text = "";
                 txtConfirmarProducto.Focus();
             }
@@ -169,10 +174,12 @@ namespace Movil_RIDA
             //panel.Visible = false;
 
             btnSinAbasto.Visible = false;
-            lbNoTransferencia.Text = "No. Transferencia: " + AbastoPkg.Transferencia;
+            //lbNoTransferencia.Text = "No. Transferencia: " + AbastoPkg.Transferencia;
+            lbNoTransferencia.Text = "ID: " + Recoleccion.ID;
             txtConfirmarProducto.Enabled = false;
             //Establecemos el inicio del proceso de ReAbasto
-            abasto.IniciarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
+            //repositorio.IniciarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
+            repositorio.IniciarReAbasto(Recoleccion.ID);
             //Solicitamos las partidas correspondientes al Re-Abasto
             SolicitarPartidaParaReAbastecer();
         }
@@ -196,8 +203,10 @@ namespace Movil_RIDA
                             {
                                     /*Esto es por si aceptan omitir el registrar los reabastos*/
 
-                                    abasto.FinalizarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
-                                    AbastoPkg.Transferencia = "";//Limpiamos la variable de No. de Transferencia                
+                                    //abasto.FinalizarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
+                                    repositorio.FinalizarReAbasto(Recoleccion.ID);
+                                    //AbastoPkg.Transferencia = "";//Limpiamos la variable de No. de Transferencia 
+                                    Recoleccion.ID = 0;
                                     MessageBox.Show("RE-ABASTO COMPLETADO!!!", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button2);
 
                                     //Regresamos a la página principal

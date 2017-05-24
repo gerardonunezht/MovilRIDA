@@ -9,7 +9,7 @@ namespace Movil_RIDA
 
         Conteo conteo = new Conteo();
 
-
+        // constructor
         public PrincipalConteos()
         {
             InitializeComponent();
@@ -18,26 +18,15 @@ namespace Movil_RIDA
         private void PrincipalConteos_Load(object sender, EventArgs e)
         {
             btnIniciar.Enabled = false;
-            try
-            {
-                DataSet ds = conteo.obtenerConteosProgramados();
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    dgProgramados.DataSource = ds.Tables[0];
-                    btnIniciar.Enabled = true;
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error al tratar de obtener los conteos programados.");
-            }
+            dgProgramados.DataSource = conteo.ObtenerConteosProgramados();
+            btnIniciar.Enabled = true;
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
             if (Conteo.ClaveContar != null)
             {
-                conteo.congelarExistenciasConteo(Conteo.NoConteo, Conteo.ClaveContar);
+                conteo.CongelarExistenciasConteo(Conteo.NoConteo, Conteo.ClaveContar);
                 ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
                 this.Close();
                 fLocalizacion.Show();
@@ -46,7 +35,6 @@ namespace Movil_RIDA
             {
                 MessageBox.Show("Favor de seleccionar el producto a contar.");
             }
-
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Movil_RIDA
 {
@@ -104,6 +105,17 @@ namespace Movil_RIDA
                     cnSQL.Close();
                 }
             }//finally
+        }
+
+        /// <summary>
+        /// Este método valida que la cantidad capturada sea un valor númerico entero o decimal con formato 999999.99
+        /// </summary>
+        /// <param name="Cantidad">Valor que se desea evaluar que coincida con el patrón de dígitos</param>
+        /// <returns></returns>
+        public static bool ValidaCantidad(string Cantidad)
+        {
+            Regex ER = new Regex(@"^[0-9]{1,6}(\.[0-9]{1,2})?$"); //999999.99
+            return (ER.IsMatch(Cantidad));
         }
 
     }

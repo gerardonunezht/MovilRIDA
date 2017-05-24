@@ -8,7 +8,6 @@ namespace Movil_RIDA
 {
     public class Producto
     {
-
         public string Clave { get; set; }
         public string Descripcion { get; set; }
         public string Familia { get; set; }
@@ -17,7 +16,6 @@ namespace Movil_RIDA
         public int Multiplo { get; set; }
         public int Nivel { get; set; }
         public string PermiteCapturarMultiplo { get; set; }
-
 
         public Producto()
         {
@@ -158,8 +156,6 @@ namespace Movil_RIDA
             return (ER.IsMatch(Cantidad));
         }
 
-
-
         public DataSet ObtenerNivelesPorCodigoClave(string pValor)
         {
             DataSet ds = new DataSet();
@@ -196,5 +192,6 @@ namespace Movil_RIDA
             }//finally   
             return null;
         }
+
     }//fin clase
 }

@@ -7,7 +7,9 @@ namespace Movil_RIDA
     public partial class PrincipalInspeccion : Form
     {
         Inspeccion inspeccion = new Inspeccion();
+        Product producto = new Product();
 
+        // constructor
         public PrincipalInspeccion()
         {
             InitializeComponent();
@@ -19,7 +21,7 @@ namespace Movil_RIDA
         {
             
             //Registramos la partida en la Base de datos
-            DataRow dr = inspeccion.AgregarRegistroMuestreo(inspeccion.CodBarras, "oflores");
+            DataRow dr = inspeccion.AgregarRegistroMuestreo(producto.CodBarras, Global.Usuario);
 
             string NoError = dr[0].ToString();
             string MensajeError = dr[1].ToString();
@@ -35,11 +37,11 @@ namespace Movil_RIDA
 
                 if (MuestraRecolectada > TamañoMuestra)
                 {
-                    MessageBox.Show("Producto: " + inspeccion.Clave + " se ha recolectado con un excedente respecto al tamaño de la muestra. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Producto: " + producto.Clave + " se ha recolectado con un excedente respecto al tamaño de la muestra. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 }
                 else if (MuestraRecolectada ==TamañoMuestra)
                 {
-                    MessageBox.Show("Producto: " + inspeccion.Clave + " se ha recolectado totalmente conforme al tamaño de muestra. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show("Producto: " + producto.Clave + " se ha recolectado totalmente conforme al tamaño de muestra. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 }
             }
             else
@@ -61,7 +63,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtCodigoBarras.Text == "") || (txtCodigoBarras.Text == null))
+                if (string.IsNullOrEmpty(txtCodigoBarras.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtCodigoBarras.Focus();
@@ -69,14 +71,14 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    inspeccion.ObtenerDatosProducto(txtCodigoBarras.Text.Trim(),"");
+                    producto = producto.GetDatosProducto(txtCodigoBarras.Text.Trim());
 
-                    if (inspeccion.Clave != "")
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         //Mostramos información en pantalla
-                        lbClave.Text = inspeccion.Clave;
-                        lbDescripcion.Text = inspeccion.Descripcion;
-                        lbMultiploEmpaque.Text = inspeccion.Multiplo.ToString();
+                        lbClave.Text = producto.Clave;
+                        lbDescripcion.Text = producto.Descripcion;
+                        lbMultiploEmpaque.Text = producto.Multiplo.ToString();
 
                         RegistrarPartida();
                         Limpiar();
@@ -95,16 +97,25 @@ namespace Movil_RIDA
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
             Global.LogOut(Global.Usuario);
-            //Application.Exit();
             this.Close();
         }
 
-
         private void btnUtilerias_Click(object sender, EventArgs e)
         {
-            Utilerias fUtilerias = new Utilerias();
-            this.Close();
-            fUtilerias.Show();
+            try
+            {
+                Utilerias fUtilerias = new Utilerias();
+                this.Close();
+                fUtilerias.Show();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        private void PrincipalInspeccion_Load(object sender, EventArgs e)
+        {
+
         }
 
     }

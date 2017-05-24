@@ -41,7 +41,7 @@
             this.btnTruncar.BackColor = System.Drawing.Color.Yellow;
             this.btnTruncar.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnTruncar.ForeColor = System.Drawing.Color.Black;
-            this.btnTruncar.Location = new System.Drawing.Point(25, 68);
+            this.btnTruncar.Location = new System.Drawing.Point(25, 22);
             this.btnTruncar.Name = "btnTruncar";
             this.btnTruncar.Size = new System.Drawing.Size(200, 50);
             this.btnTruncar.TabIndex = 0;
@@ -53,7 +53,7 @@
             this.btnCero.BackColor = System.Drawing.Color.Yellow;
             this.btnCero.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.btnCero.ForeColor = System.Drawing.Color.Black;
-            this.btnCero.Location = new System.Drawing.Point(25, 12);
+            this.btnCero.Location = new System.Drawing.Point(25, 90);
             this.btnCero.Name = "btnCero";
             this.btnCero.Size = new System.Drawing.Size(200, 50);
             this.btnCero.TabIndex = 1;

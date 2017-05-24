@@ -11,7 +11,8 @@ namespace Movil_RIDA
 {
     public partial class Utilerias : Form
     {
-        Producto prod = new Producto();
+        //Producto prod = new Producto();
+
         public Utilerias()
         {
             InitializeComponent();
@@ -22,13 +23,29 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                  //Validamos que se digite un código a buscar
-                if ((txtValor.Text == "") || (txtValor.Text == null))
+                //if ((txtValor.Text == "") || (txtValor.Text == null))
+                if ( string.IsNullOrEmpty(txtValor.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtValor.Focus();
                 }
                 else
                 {
+                    Product producto=new Product();
+
+                    dgDatos.DataSource = producto.ObtenerNivelesPorCodigoClave(txtValor.Text);
+
+                    lbClave.Text = "Clave: ";
+                    lbDescripcion.Text = "";
+                    lbCodigo.Text = "CB: ";
+                    lbMultiplo.Text = "Mult: ";
+                    lbNivel.Text = "Nivel: ";
+
+                    txtValor.Text = "";
+                    txtValor.Focus();
+
+
+                    /*
                     DataSet ds = prod.ObtenerNivelesPorCodigoClave(txtValor.Text.Trim());
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -43,6 +60,7 @@ namespace Movil_RIDA
                         txtValor.Text = "";
                         txtValor.Focus();
                     }
+                    */
                     
                 }
             }
