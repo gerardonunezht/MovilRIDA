@@ -7,22 +7,34 @@ namespace Movil_RIDA
     public partial class RegistrarDisponible : Form
     {
 
-        Disponible disp = new Disponible();
+        Disponible disponible = new Disponible();
+        Product producto = new Product();
+
         public string NoError = "";
         public string MensajeError = "";
         public string CantidadTotal = "0";
 
+        // constructor
         public RegistrarDisponible()
         {
             InitializeComponent();
         }
 
+        private void RegistrarDisponible_Load(object sender, EventArgs e)
+        {
+            txtCantidad.Enabled = false;
+            lbID.Text = "ID RCP: " + Disponible.ID;
+            lbLoc.Text = "LOC: " + Disponible.Localizacion;
+            lbClave.Text = Disponible.ClaveColocar;
+            lbColocar.Text = "A COLOCAR: " + Disponible.CantColocar;
+            txtCB.Focus();
+        }
+
         private void RegistrarPartidaDisponible(float Cantidad)
         {
-            DataRow dr;
-
+ 
             //Registramos la partida en la Base de datos          
-            dr = disp.registrarDisponible(Disponible.ID, Disponible.Localizacion, txtCB.Text, Cantidad, Global.Usuario);
+            DataRow dr = disponible.RegistrarDisponible(Disponible.ID, Disponible.Localizacion, txtCB.Text, Cantidad, Global.Usuario);
 
             NoError = dr[0].ToString();
             MensajeError = dr[1].ToString();
@@ -30,7 +42,6 @@ namespace Movil_RIDA
 
             if (NoError == "0")
             {
-
                 if (Convert.ToSingle(CantidadTotal) <= Convert.ToSingle(Disponible.CantColocar))
                 {
                     btnEliminarUltimaPartida.Enabled = true;
@@ -50,22 +61,12 @@ namespace Movil_RIDA
             }
         }
 
-        private void RegistrarDisponible_Load(object sender, EventArgs e)
-        {
-            txtCantidad.Enabled = false;
-            lbID.Text = "ID RCP: " + Disponible.ID;
-            lbLoc.Text = "LOC: " + Disponible.Localizacion;
-            lbClave.Text = Disponible.ClaveColocar;
-            lbColocar.Text = "A COLOCAR: " + Disponible.CantColocar;
-            txtCB.Focus();
-        }
-
         private void txtCB_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtCB.Text == "") || (txtCB.Text == null))
+                if (string.IsNullOrEmpty(txtCB.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtCB.Focus();
@@ -73,16 +74,18 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    disp.ObtenerDatosProducto(txtCB.Text.Trim(), Global.IdProcesoADN);
+                    producto = producto.GetDatosProducto(txtCB.Text.Trim());
 
-                    if (disp.Clave != "")
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         //Mostramos información en pantalla
-                        lbClave.Text = disp.Clave;
-                        lbDescripcion.Text = disp.Descripcion;
-                        txtMultiplo.Text = disp.Multiplo.ToString();
+                        lbClave.Text = producto.Clave;
+                        lbDescripcion.Text = producto.Descripcion;
+                        txtMultiplo.Text = producto.Multiplo.ToString();
 
-                        if ((disp.PermiteCapturarMultiplo == "SI") || (disp.Nivel > 1))
+                        var aceptaMultiplo = producto.PermiteCapturarMultiploEmpaque(producto.Clave, Global.IdProcesoADN);
+
+                        if ( (aceptaMultiplo == "SI") || (producto.Nivel > 1) )
                         {
                             txtCantidad.Enabled = true;
                             txtCantidad.Focus();
@@ -110,10 +113,10 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validar si lo registrado en el campo cantidad, tiene formato de numérico de 999999.99
-                if (Conteo.ValidaCantidad(txtCantidad.Text))
+                if (Global.ValidaCantidad(txtCantidad.Text))
                 {
                     //Cantidad a registrar es igual a la multiplicación del múltiplo del empaque del artículo por la cantidad de empaques
-                    float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * disp.Multiplo;
+                    float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * producto.Multiplo;
 
                     RegistrarPartidaDisponible(CantidadRegistrar);
                 }
@@ -133,9 +136,9 @@ namespace Movil_RIDA
             if (resp == DialogResult.Yes)
             {
                 //Eliminamos el último registro insertado                
-                //string cantidadActualizada = disp.eliminarRegistroDisponible(Disponible.ID, Global.Usuario);
-                CantidadTotal = disp.eliminarRegistroDisponible(Disponible.ID, Global.Usuario);
-                if (CantidadTotal != "")
+                CantidadTotal = disponible.EliminarRegistroDisponible(Disponible.ID, Global.Usuario);
+
+                if (!string.IsNullOrEmpty(CantidadTotal))
                 {
                     //Se eliminó la partida
                     btnEliminarUltimaPartida.Enabled = false;
@@ -149,14 +152,13 @@ namespace Movil_RIDA
 
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
-
             if (CantidadTotal != "0")
             {
                 DialogResult result = MessageBox.Show("¿Seguro que desea FINALIZAR con el disponible? ", "AVISO!!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button2);
 
                 if (result == DialogResult.Yes)
                 {
-                    disp.finalizarDisponible(Disponible.ID);
+                    disponible.FinalizarDisponible(Disponible.ID);
                     this.Close();
                     PrincipalDisponible fPrincipal = new PrincipalDisponible();
                     fPrincipal.Show();
@@ -169,9 +171,6 @@ namespace Movil_RIDA
                 PrincipalDisponible fPrincipal = new PrincipalDisponible();
                 fPrincipal.Show();
             }
-
-
-
         }
 
         private void pbInspeccion_Click(object sender, EventArgs e)

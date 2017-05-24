@@ -15,6 +15,7 @@ namespace Movil_RIDA
 
         private void Ingresar()
         {
+            
             if (txtUsuario.Text == "")
             {
                 MessageBox.Show("Debe de registrar su código de usuario ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
@@ -23,15 +24,17 @@ namespace Movil_RIDA
             else
             {
                 Global.Usuario = txtUsuario.Text.Trim();
+
                 try
                 {
                     DataRow drLogIn = Global.LogIn(Global.Usuario);
 
                     string error = drLogIn[0].ToString();
                     string mensaje = drLogIn[1].ToString();
-
+                    
                     if ((error == "0") || (error == "2"))
                     {
+                        
                         switch (Global.Aplicacion)
                         {
                             case "RECEPCION":
@@ -72,30 +75,8 @@ namespace Movil_RIDA
                             default:
                                 break;
                         }
+                         
                     }
-                    //else if (error == "2") //Si el usuario ya está logeado, le permitimos el ingreso solo a los siguientes módulo
-                    //{
-                    //    switch (Global.Aplicacion)
-                    //    {
-                    //        case "RECEPCION":
-                    //            PrincipalRecepcion fRecepcion = new PrincipalRecepcion();
-                    //            fRecepcion.Show();
-                    //            this.Hide();
-                    //            break;
-                    //        case "DISPONIBLE":
-                    //            PrincipalDisponible fDisponible = new PrincipalDisponible();
-                    //            fDisponible.Show();
-                    //            this.Hide();
-                    //            break;
-                    //        case "CONTEOS":                                
-                    //            PrincipalConteos fConteo = new PrincipalConteos();
-                    //            fConteo.Show();
-                    //            this.Hide();
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //}
                     else
                     {
                         MessageBox.Show(mensaje, "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
@@ -103,9 +84,9 @@ namespace Movil_RIDA
                         txtUsuario.Focus();
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //throw;
+                    MessageBox.Show(ex.Message);
                 }
 
             }
@@ -151,10 +132,5 @@ namespace Movil_RIDA
             }
         }
 
-        private void panel1_GotFocus(object sender, EventArgs e)
-        {
-
-        }
-
-    }
-}
+    }//clase
+}//namespace

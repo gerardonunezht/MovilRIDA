@@ -7,18 +7,16 @@ namespace Movil_RIDA
     {
         Disponible disp = new Disponible();
         static bool MostrarVacias = false;
+        
+        // constructor
         public LocalizacionesDisponible()
         {
             InitializeComponent();
         }
 
-
         private void LocalizacionesDisponible_Load(object sender, EventArgs e)
         {            
-            //dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesVacias().Tables[0];
-            //btnLocalizaciones.Text = "Mostrar: Con Existencia";
-
-            dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesProductoExistencia(Disponible.ClaveColocar).Tables[0];
+            dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesProductoExistencia(Disponible.ClaveColocar);
             btnLocalizaciones.Text = "Sugerir: Vacias";
             MostrarVacias = true;
 
@@ -26,20 +24,19 @@ namespace Movil_RIDA
             lbSeleccionado.Text = "SEL.: " + Disponible.ClaveColocar;
 
             txtLocalizacion.Focus();
-
         }
 
         private void btnLocalizaciones_Click(object sender, EventArgs e)
         {
             if (MostrarVacias)
             {
-                dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesVacias().Tables[0];
+                dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesVacias();
                 btnLocalizaciones.Text = "Sugerir: Con Existencia";
                 MostrarVacias = false;
             }
             else
             {
-                dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesProductoExistencia(Disponible.ClaveColocar).Tables[0];
+                dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesProductoExistencia(Disponible.ClaveColocar);
                 btnLocalizaciones.Text = "Sugerir: Vacias";
                 MostrarVacias = true;
             }

@@ -111,7 +111,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validar si lo registrado en el campo cantidad, tiene formato de numérico de 999999.99
-                if (Conteo.ValidaCantidad(txtCantidad.Text))
+                if (Global.ValidaCantidad(txtCantidad.Text))
                 {
                     //Cantidad a registrar es igual a la multiplicación del múltiplo del empaque del artículo por la cantidad de empaques
                     float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * disp.Multiplo;

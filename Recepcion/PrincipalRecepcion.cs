@@ -7,7 +7,9 @@ namespace Movil_RIDA
     public partial class PrincipalRecepcion : Form
     {
         Recepcion recepcion = new Recepcion();
+        public string Clave { get; set; }
 
+        // constructor
         public PrincipalRecepcion()
         {
             InitializeComponent();
@@ -17,63 +19,69 @@ namespace Movil_RIDA
 
         //
         private void LimpiarObjetos()
-            {
-                txtReferenciaFactura.Visible = false;
-                btnIniciar.Enabled = false;
-                txtProveedor.Text = "";
-                txtOrdenCompra.Text = "";
-                txtOrdenCompra.Focus();
-            }
+        {
+            txtReferenciaFactura.Visible = false;
+            btnIniciar.Enabled = false;
+            txtProveedor.Text = "";
+            txtOrdenCompra.Text = "";
+            txtOrdenCompra.Focus();
+        }
 
         //
         private void BuscarOrdenCompra()
+        {
+            DataRow dr;
+
+            dr = recepcion.ObtenerDatosOrdenCompra(Recepcion.OrdenCompra);
+
+            if (dr != null)
             {
-                DataRow dr;
+                Recepcion.FechaOrdenCompra = dr["FechaOrdenCompra"].ToString().Trim();
+                Recepcion.NoProveedor = dr["NoProveedor"].ToString().Trim();
+                Recepcion.NombreProveedor = dr["Proveedor"].ToString().Trim();
+                Recepcion.MonedaOrdenCompra = dr["Moneda"].ToString().Trim();
 
-                dr = recepcion.ObtenerDatosOrdenCompra(Recepcion.OrdenCompra);
+                txtProveedor.Text = Recepcion.NoProveedor + '-' + Recepcion.NombreProveedor;
 
-                if (dr != null)
-                {
-                    Recepcion.FechaOrdenCompra = dr["FechaOrdenCompra"].ToString().Trim();
-                    Recepcion.NoProveedor = dr["NoProveedor"].ToString().Trim();
-                    Recepcion.NombreProveedor = dr["Proveedor"].ToString().Trim();
-                    Recepcion.MonedaOrdenCompra = dr["Moneda"].ToString().Trim();
-
-                    txtProveedor.Text = Recepcion.NoProveedor + '-' + Recepcion.NombreProveedor;
-
-                    txtReferenciaFactura.Visible = true;
-                    btnIniciar.Enabled = true;
-                    txtReferenciaFactura.Focus();
-                }
-                else
-                {
-                    MessageBox.Show("La orden de compra ingresada NO EXISTE o ya esta marcada como RECIBIDA TOTALMENTE, favor de verificarla con el área de Suministros.", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
-                    LimpiarObjetos();
-                }
+                txtReferenciaFactura.Visible = true;
+                btnIniciar.Enabled = true;
+                txtReferenciaFactura.Focus();
             }
+            else
+            {
+                MessageBox.Show("La orden de compra ingresada NO EXISTE o ya esta marcada como RECIBIDA TOTALMENTE, favor de verificarla con el área de Suministros.", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                LimpiarObjetos();
+            }
+        }
 
         #endregion
         
         private void Principal_Load(object sender, EventArgs e)
         {
             //Primero verificamos si exite alguna partida pendiente de recibir
-            recepcion.ContinuarRecpecionPartida(Global.Usuario);
+            DataRow dr = recepcion.ContinuarRecpecionPartida(Global.Usuario);
 
-            if (recepcion.StatusPartida == "RECIBIENDO")
+            if (dr!=null)
+            {
+                    Recepcion.OrdenCompra = dr["PoNbr"].ToString().Trim();
+                    Recepcion.NoProveedor = dr["VendId"].ToString().Trim();
+                    Recepcion.MonedaOrdenCompra = dr["CuryId"].ToString().Trim();
+                    Recepcion.StatusPartida = dr["StatusPartidaRecepcion"].ToString().Trim();
+                    this.Clave = dr["Invtid"].ToString().Trim();
+            }
+
+            if (Recepcion.StatusPartida == "RECIBIENDO")
             {
 
-                string mensaje = String.Format("Se quedo pendiente de RECIBIR la partida {0} perteneciente a la O.C. {1}, ¿Desea continuarla? en caso de que NO, sera cancelada.", recepcion.Clave, Recepcion.OrdenCompra);
+                string mensaje = String.Format("Se quedo pendiente de RECIBIR la partida {0} perteneciente a la O.C. {1}, ¿Desea continuarla? en caso de que NO, sera cancelada.", this.Clave, Recepcion.OrdenCompra);
                 DialogResult resp = MessageBox.Show(mensaje, "Aviso!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
 
                 if (resp == DialogResult.Yes)
                 {                                        
                     this.Close();
-                    //Partidas fPartidas = new Partidas();
-                    //fPartidas.Show();
                 }else
                 {
-
-                    recepcion.CancelarRecpecionPartida(Recepcion.OrdenCompra, recepcion.Clave);
+                    recepcion.CancelarRecepcionPartida(Recepcion.OrdenCompra, this.Clave);
                     MessageBox.Show("Se ha eliminado por completo la información de la recepción");
                     LimpiarObjetos();
                     btnIniciar.Enabled = false;
@@ -90,17 +98,12 @@ namespace Movil_RIDA
         
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-
-            if (txtReferenciaFactura.Text != "")
+            if (!string.IsNullOrEmpty(txtReferenciaFactura.Text))
             { 
-                DataSet ds = recepcion.ValidaNoDuplicidadReferencia(txtReferenciaFactura.Text, Recepcion.NoProveedor);
+                DataRow dr = recepcion.ValidaNoDuplicidadReferencia(txtReferenciaFactura.Text, Recepcion.NoProveedor);
 
-                DataRow dr;
-                if (ds.Tables[0].Rows.Count > 0)
+                if (dr != null)            
                 {
-                    //Existe duplicidad de referencia
-                    dr = ds.Tables[0].Rows[0];
-
                     string mensaje = String.Format("La Referencia: {0} ya fué asignada previamente en la recepción: {1} de la orden de compra: {2} del proveedor: {3},  ¿Desea continuar de cualquier manera?.", txtReferenciaFactura.Text, dr["RcptNbr"].ToString().Trim(), dr["PoNbr"].ToString().Trim(), dr["Proveedor"].ToString().Trim());
                     
                     DialogResult resp=MessageBox.Show(mensaje, "Aviso!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
@@ -118,8 +121,7 @@ namespace Movil_RIDA
                     {
                         txtReferenciaFactura.SelectAll();
                         txtReferenciaFactura.Focus();     
-                    }
-           
+                    }           
                 }
                 else
                 {
@@ -128,7 +130,6 @@ namespace Movil_RIDA
                     this.Close();
                     Partidas fPartidas = new Partidas();
                     fPartidas.Show();
-
                 }            
             }
             else
@@ -136,9 +137,7 @@ namespace Movil_RIDA
                 MessageBox.Show("Debe de ingresa el NUMERO DE FACTURA asociado a la orden de compra que se recibirá.", "Aviso!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
                 txtReferenciaFactura.SelectAll();
                 txtReferenciaFactura.Focus();  
-            }
-
-                                  
+            }                                  
         }
         
         private void txtOrdenCompra_KeyUp(object sender, KeyEventArgs e)
@@ -153,7 +152,6 @@ namespace Movil_RIDA
         private void btnSalir_Click(object sender, EventArgs e)
         {
             Global.LogOut(Global.Usuario);
-            //Application.Exit();
             this.Close();
         }
 

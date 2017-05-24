@@ -33,21 +33,21 @@
             this.lbLocalizacion = new System.Windows.Forms.Label();
             this.lbClave = new System.Windows.Forms.Label();
             this.lbCantidad = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbRecolectado = new System.Windows.Forms.Label();
+            this.lbPorAbastecer = new System.Windows.Forms.Label();
             this.lbDescripcion = new System.Windows.Forms.Label();
             this.tmLocalizacion = new System.Windows.Forms.Timer();
             this.pbInspeccion = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnFinalizar = new System.Windows.Forms.Button();
             this.lbAviso = new System.Windows.Forms.Label();
             this.lbNoTransferencia = new System.Windows.Forms.Label();
-            this.btnFinalizar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtLocalizacion
             // 
-            this.txtLocalizacion.Location = new System.Drawing.Point(17, 196);
+            this.txtLocalizacion.Location = new System.Drawing.Point(17, 207);
             this.txtLocalizacion.Name = "txtLocalizacion";
             this.txtLocalizacion.Size = new System.Drawing.Size(182, 23);
             this.txtLocalizacion.TabIndex = 4;
@@ -56,9 +56,9 @@
             // lbLocalizacion
             // 
             this.lbLocalizacion.Font = new System.Drawing.Font("Tahoma", 26F, System.Drawing.FontStyle.Regular);
-            this.lbLocalizacion.Location = new System.Drawing.Point(17, 151);
+            this.lbLocalizacion.Location = new System.Drawing.Point(17, 162);
             this.lbLocalizacion.Name = "lbLocalizacion";
-            this.lbLocalizacion.Size = new System.Drawing.Size(215, 50);
+            this.lbLocalizacion.Size = new System.Drawing.Size(215, 40);
             this.lbLocalizacion.Text = "LOC.";
             this.lbLocalizacion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
@@ -67,7 +67,7 @@
             this.lbClave.BackColor = System.Drawing.Color.Black;
             this.lbClave.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular);
             this.lbClave.ForeColor = System.Drawing.Color.Yellow;
-            this.lbClave.Location = new System.Drawing.Point(17, 28);
+            this.lbClave.Location = new System.Drawing.Point(17, 24);
             this.lbClave.Name = "lbClave";
             this.lbClave.Size = new System.Drawing.Size(215, 20);
             this.lbClave.Text = "CLAVE";
@@ -75,37 +75,34 @@
             // 
             // lbCantidad
             // 
-            this.lbCantidad.Font = new System.Drawing.Font("Tahoma", 16F, System.Drawing.FontStyle.Regular);
+            this.lbCantidad.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular);
             this.lbCantidad.ForeColor = System.Drawing.Color.Red;
-            this.lbCantidad.Location = new System.Drawing.Point(79, 113);
+            this.lbCantidad.Location = new System.Drawing.Point(17, 137);
             this.lbCantidad.Name = "lbCantidad";
-            this.lbCantidad.Size = new System.Drawing.Size(76, 25);
+            this.lbCantidad.Size = new System.Drawing.Size(215, 20);
             this.lbCantidad.Text = "0";
-            this.lbCantidad.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // label4
+            // lbRecolectado
             // 
-            this.label4.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label4.Location = new System.Drawing.Point(22, 94);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(205, 16);
-            this.label4.Text = "Cantidad a recolectar";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbRecolectado.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular);
+            this.lbRecolectado.Location = new System.Drawing.Point(17, 112);
+            this.lbRecolectado.Name = "lbRecolectado";
+            this.lbRecolectado.Size = new System.Drawing.Size(215, 20);
+            this.lbRecolectado.Text = "Recolectado";
             // 
-            // label1
+            // lbPorAbastecer
             // 
-            this.label1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular);
-            this.label1.Location = new System.Drawing.Point(22, 134);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 20);
-            this.label1.Text = "de la localización:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lbPorAbastecer.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular);
+            this.lbPorAbastecer.Location = new System.Drawing.Point(17, 89);
+            this.lbPorAbastecer.Name = "lbPorAbastecer";
+            this.lbPorAbastecer.Size = new System.Drawing.Size(215, 20);
+            this.lbPorAbastecer.Text = "Recoleccion";
             // 
             // lbDescripcion
             // 
             this.lbDescripcion.BackColor = System.Drawing.Color.Yellow;
             this.lbDescripcion.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
-            this.lbDescripcion.Location = new System.Drawing.Point(17, 52);
+            this.lbDescripcion.Location = new System.Drawing.Point(17, 47);
             this.lbDescripcion.Name = "lbDescripcion";
             this.lbDescripcion.Size = new System.Drawing.Size(215, 42);
             this.lbDescripcion.Text = "label2";
@@ -118,7 +115,7 @@
             // pbInspeccion
             // 
             this.pbInspeccion.Image = ((System.Drawing.Image)(resources.GetObject("pbInspeccion.Image")));
-            this.pbInspeccion.Location = new System.Drawing.Point(200, 196);
+            this.pbInspeccion.Location = new System.Drawing.Point(200, 207);
             this.pbInspeccion.Name = "pbInspeccion";
             this.pbInspeccion.Size = new System.Drawing.Size(32, 23);
             this.pbInspeccion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -136,29 +133,11 @@
             this.panel1.Controls.Add(this.lbLocalizacion);
             this.panel1.Controls.Add(this.lbDescripcion);
             this.panel1.Controls.Add(this.lbCantidad);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.lbPorAbastecer);
+            this.panel1.Controls.Add(this.lbRecolectado);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(245, 295);
-            // 
-            // lbAviso
-            // 
-            this.lbAviso.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lbAviso.ForeColor = System.Drawing.Color.Red;
-            this.lbAviso.Location = new System.Drawing.Point(17, 222);
-            this.lbAviso.Name = "lbAviso";
-            this.lbAviso.Size = new System.Drawing.Size(215, 50);
-            this.lbAviso.Text = "Aviso";
-            this.lbAviso.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // lbNoTransferencia
-            // 
-            this.lbNoTransferencia.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.lbNoTransferencia.Location = new System.Drawing.Point(17, 4);
-            this.lbNoTransferencia.Name = "lbNoTransferencia";
-            this.lbNoTransferencia.Size = new System.Drawing.Size(215, 20);
-            this.lbNoTransferencia.Text = "Trns:";
             // 
             // btnFinalizar
             // 
@@ -171,6 +150,24 @@
             this.btnFinalizar.TabIndex = 10;
             this.btnFinalizar.Text = "Finalizar";
             this.btnFinalizar.Click += new System.EventHandler(this.btnFinalizar_Click);
+            // 
+            // lbAviso
+            // 
+            this.lbAviso.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
+            this.lbAviso.ForeColor = System.Drawing.Color.Red;
+            this.lbAviso.Location = new System.Drawing.Point(17, 234);
+            this.lbAviso.Name = "lbAviso";
+            this.lbAviso.Size = new System.Drawing.Size(215, 30);
+            this.lbAviso.Text = "Aviso";
+            this.lbAviso.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // lbNoTransferencia
+            // 
+            this.lbNoTransferencia.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
+            this.lbNoTransferencia.Location = new System.Drawing.Point(17, 4);
+            this.lbNoTransferencia.Name = "lbNoTransferencia";
+            this.lbNoTransferencia.Size = new System.Drawing.Size(215, 20);
+            this.lbNoTransferencia.Text = "ID:";
             // 
             // RecolectarLoc
             // 
@@ -197,8 +194,8 @@
         private System.Windows.Forms.Label lbLocalizacion;
         private System.Windows.Forms.Label lbClave;
         private System.Windows.Forms.Label lbCantidad;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbRecolectado;
+        private System.Windows.Forms.Label lbPorAbastecer;
         private System.Windows.Forms.Label lbDescripcion;
         private System.Windows.Forms.Timer tmLocalizacion;
         private System.Windows.Forms.PictureBox pbInspeccion;

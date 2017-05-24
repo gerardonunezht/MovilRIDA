@@ -6,7 +6,9 @@ namespace Movil_RIDA
 {
     public partial class ExcepcionConteo : Form
     {
-        Conteo cto = new Conteo();
+        Conteo conteo = new Conteo();
+        Product producto = new Product();
+
         public string PantallaInvoca = "";
 
         private void Agregarexcepcion()
@@ -36,7 +38,7 @@ namespace Movil_RIDA
                 return;
             }
 
-            DataRow dr = cto.agregarLocalizacionExcepcion(Conteo.NoConteo, Conteo.ClaveContar, txtLocalizacionExp.Text.Trim().ToUpper(), CantidadExcepcion, Global.Usuario);
+            DataRow dr = conteo.AgregarLocalizacionExcepcion(Conteo.NoConteo, Conteo.ClaveContar, txtLocalizacionExp.Text.Trim().ToUpper(), CantidadExcepcion, Global.Usuario);
 
             if (dr[0].ToString() != "0")
             {
@@ -45,12 +47,20 @@ namespace Movil_RIDA
             }
 
             MessageBox.Show("Excepción registrada correctamente.");
-            this.Close();
-            ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
-            fLocalizacion.Show();
+
+            try
+            {
+                this.Close();
+                ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
+                fLocalizacion.Show();
+            }
+            catch (Exception)
+            {
+            }
+
         }
 
-
+        // constructor
         public ExcepcionConteo()
         {
             InitializeComponent();
@@ -58,8 +68,7 @@ namespace Movil_RIDA
 
         private void btnExcepcion_Click(object sender, EventArgs e)
         {
-            Agregarexcepcion();
-            
+            Agregarexcepcion();            
         }
 
         private void txtLocalizacionExp_KeyUp(object sender, KeyEventArgs e)
@@ -80,7 +89,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtCodigoExp.Text == "") || (txtCodigoExp.Text == null))
+                if (string.IsNullOrEmpty(txtCodigoExp.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtCodigoExp.Focus();
@@ -88,11 +97,10 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    cto.ObtenerDatosProducto(txtCodigoExp.Text.Trim(), Global.IdProcesoADN);
+                    producto = producto.GetDatosProducto(txtCodigoExp.Text.Trim());
 
-                    if (cto.Clave == Conteo.ClaveContar)
+                    if (producto.Clave == Conteo.ClaveContar)
                     {
-                        //lbProductoExcepcion.Text = cto.Descripcion;
                         txtCantidadExp.Focus();
                     }
                     else

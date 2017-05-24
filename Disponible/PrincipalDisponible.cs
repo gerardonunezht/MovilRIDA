@@ -6,7 +6,8 @@ namespace Movil_RIDA
 {
     public partial class PrincipalDisponible : Form
     {
-        Disponible disp = new Disponible();
+        Disponible disponible = new Disponible();
+        Product producto = new Product();
 
         public PrincipalDisponible()
         {
@@ -20,64 +21,36 @@ namespace Movil_RIDA
             Disponible.ClaveColocar = null;
             Disponible.DescripcionProd = null;
             Disponible.CantColocar = "0";
+
             lbColocar.Text = "A COLOCAR: " + Disponible.CantColocar;
             lbSeleccionado.Text = "SEL.: " + Disponible.ClaveColocar;
 
             btnIniciar.Enabled = false;
 
-
-            DataSet dsError = new DataSet();
-            DataRow drError;
-
-            //Mandamos llamar el método que verifica si existen transferencias fallidas (es decir, con error)
-            dsError = disp.VerificarTransferenciaError(Global.Usuario);
-            int TransferenciasDisponibleConError = dsError.Tables[0].Rows.Count;
-
-
-            //Si existen abastos con status de Error, entonces:
-            if (TransferenciasDisponibleConError > 0)
+            DataRow registro = disponible.VerificarTransferenciaError(Global.Usuario);
+            if (registro != null)
             {
                 //Asignamos el número de Transferencia que corresponde a la recolección pendiente de Re-Abastecer
-                drError = dsError.Tables[0].Rows[0];
-                Disponible.ID = drError["ID"].ToString().TrimEnd();
-                Disponible.ClaveColocar = drError["InvtId"].ToString().TrimEnd();
+                Disponible.ID = registro["ID"].ToString().TrimEnd();
+                Disponible.ClaveColocar = registro["InvtId"].ToString().TrimEnd();
 
                 string msj = string.Format("NO se pudo generar lote de TRANSFERENCIA para Disponible del producto: {0} con ID: {1} ", Disponible.ClaveColocar, Disponible.ID);
-                
-                /*
-                lbClavesDelSemaforo.Text = "ERROR"; //msj;
-                lbClavesEnRojo.Text = "";
-                lbClavesEnAmarillo.Text = "";
-                lbClavesEnVerde.Text = "";
-                */
+
                 btnIniciar.Enabled = false;
                 txtSeleccionar.Enabled = false;
                 MessageBox.Show(msj);
             }
             else
             {
-                DataSet ds = disp.obtenerProductosAceptados();
-                if (ds.Tables[0].Rows.Count > 0)
+                var datos = disponible.ObtenerProductosAceptados();
+                if (datos!=null)
                 {
-                    dgDisponible.DataSource = ds.Tables[0];
+                    dgDisponible.DataSource = datos;
                     btnIniciar.Enabled = true;
                     txtSeleccionar.Enabled = true;
-                    txtSeleccionar.Focus();
+                    txtSeleccionar.Focus();                    
                 }
             }
-
-
-            /*
-            try
-            {
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Error al tratar de obtener los conteos programados.");
-            }
-            */
-
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -104,26 +77,29 @@ namespace Movil_RIDA
         {
             if (Disponible.ClaveColocar != null)
             {
-                DataRow resp = disp.iniciarProcesoDisponible(Disponible.ID, Global.Usuario);
+                MessageBox.Show(Disponible.ID.ToString()+ " - " + Global.Usuario);
+                DataRow registro = disponible.IniciarProcesoDisponible(Disponible.ID, Global.Usuario);
 
-                if (resp[0].ToString()=="0") 
+                int error = Convert.ToInt16(registro[0]);
+                string msjError = registro[1].ToString();
+
+                if (error == 0) 
                 {                   
                     LocalizacionesDisponible fLocalizaciones = new LocalizacionesDisponible();
                     this.Close();
                     fLocalizaciones.Show();
                 }
-                else if (resp[0].ToString() == "1") 
+                else if (error == 1) 
                 {
-                    MessageBox.Show(resp[1].ToString());
+                    MessageBox.Show(msjError);
                     LocalizacionesDisponible fLocalizaciones = new LocalizacionesDisponible();
                     this.Close();
                     fLocalizaciones.Show();
                 }
                 else
                 {
-                    MessageBox.Show(resp[1].ToString());
+                    MessageBox.Show(msjError);
                 }
-
             }
             else
             {
@@ -136,7 +112,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtSeleccionar.Text == "") || (txtSeleccionar.Text == null))
+                if (string.IsNullOrEmpty(txtSeleccionar.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtSeleccionar.Focus();
@@ -144,14 +120,14 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    disp.ObtenerDatosProducto(txtSeleccionar.Text.Trim(), Global.IdProcesoADN);
+                    producto = producto.GetDatosProducto(txtSeleccionar.Text.Trim());
 
-                    if (disp.Clave != "")
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         DataRow dr;
                         try
                         {
-                            dr = disp.SeleccionarProductoDisponible(disp.Clave);
+                            dr = disponible.SeleccionarProductoDisponible(producto.Clave);
 
                             Disponible.ID = dr["ID"].ToString().Trim();
                             Disponible.ClaveColocar = dr["Invtid"].ToString().Trim();
@@ -177,7 +153,6 @@ namespace Movil_RIDA
                 }
                 txtSeleccionar.Text = "";
             }
-
         }
 
     }

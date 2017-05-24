@@ -2,23 +2,44 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Movil_RIDA
 {
-    class Inspeccion:Producto
+    class Inspeccion
     {
+        private AccesoDatos db; // objeto para el acceso a datos
+
+        public Inspeccion()
+        {
+            //Establecemos la cadena de conexión a la BD
+            db = new AccesoDatos(Properties.Resources.cnStr);
+        }
 
         /// <summary>
         /// Permite liberar la rececpción para que se de ingreso al almacen de recepciones en Solomon registrando
         /// en cada partida (segun corresponda) los datos del pedimento
         /// </summary>
-        /// <param name="pOrdenCompra">Número de Orden de Compra que se está recibiendo</param>
-        /// <param name="pFactura">Numero de factura de proveedorer que se registrará como referencia en la recepción</param>
-        /// <param name="pMonto">Monto de la factura ecibida correspondiente a la orden de compra</param>
-        /// <param name="pPedimento">Numero de pedimento que se asociará a la partida recibida</param>
-        /// <param name="pAduanaPedimento">Nombre de la aduana correspondiente al pedimento</param>
-        /// <param name="pFechaPedimento">Fecha de ingreso correspondiente al pedimento</param>
-        /// <returns></returns>
+        public DataRow AgregarRegistroMuestreo(string pCodigoBarras, string pUsuario)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@CodigoBarras", pCodigoBarras);
+            Parametros.Add("@Usuario", pUsuario);
+
+            var datos = db.ExecuteSelect("ADN_Inspec_AgregarRegistroMuestreo", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /*
         public DataRow AgregarRegistroMuestreo(string pCodigoBarras, string pUsuario)
         {
             SqlDataAdapter da = new SqlDataAdapter();
@@ -57,5 +78,7 @@ namespace Movil_RIDA
             }//finally
             return null;
         }
+        */
+
     }
 }

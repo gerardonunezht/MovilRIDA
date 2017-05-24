@@ -69,7 +69,6 @@
             this.lbMultiploEmpaque.Size = new System.Drawing.Size(52, 20);
             this.lbMultiploEmpaque.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.lbMultiploEmpaque.Visible = false;
-            this.lbMultiploEmpaque.ParentChanged += new System.EventHandler(this.lbMultiploEmpaque_ParentChanged);
             // 
             // lbDescripcion
             // 

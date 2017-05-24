@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Movil_RIDA
 {
-    class Recepcion:Producto
+    class Recepcion
     {
         public static string OrdenCompra;
         public static string NoProveedor;
@@ -13,17 +13,184 @@ namespace Movil_RIDA
         public static string MonedaOrdenCompra;
         public static string FechaOrdenCompra;
         public static string Factura { get; set; }
-        //public static string StatusRcp { get; set; }
-        //public static string NoRecepcion { get; set; }
-        public string StatusPartida { get; set; }
-        public float CantidadRecibida { get; set; }
-        public float CantidadOrdenada { get; set; }
+        public static string StatusPartida { get; set; }
+
+        //public static float CantidadRecibida { get; set; }
+        //public static float CantidadOrdenada { get; set; }
+
+        private AccesoDatos db; // objeto para el acceso a datos
+
+        public Recepcion()
+        {
+            //Establecemos la cadena de conexión a la BD
+            db = new AccesoDatos(Properties.Resources.cnStr);
+        }
+
+        /// <summary>
+        /// Permite verificar si existe una partida pendiente de RECIBIR de un usuario, es decir, que tenga status RECIBIENDO
+        /// </summary>
+        public DataRow ContinuarRecpecionPartida(string pUsuario)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@Usuario", pUsuario);
+
+            var datos = db.ExecuteSelect("ADN_RcpProv_ContinuarRecpecion", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        //este SP está marcado como OBSOLETO en producción
+        /// <summary>
+        /// Permite eliminar los registros asociados a una recepción de orden de compra
+        /// </summary>
+        public bool CancelarRecepcionPartida(string pOrdenCompra, string pProducto)
+        {
+            //este SP está marcado como OBSOLETO en producción
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
+            Parametros.Add("@Producto", pProducto);
+
+            db.ExecuteNonQuery("ADN_RcpProv_CancelarRecpecion", Parametros);
+
+            return true;
+        }
 
         /// <summary>
         /// Permite obtener los datos generales de la orden de compra a recibir
         /// </summary>
-        /// <param name="pOrdenCompra">Numero de orden de compra que se recibirá</param>
-        /// <returns></returns>
+        public DataRow ObtenerDatosOrdenCompra(string pOrdenCompra)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
+
+            var datos = db.ExecuteSelect("ADN_RcpProv_ObtenerDatosOrdenCompra", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Verifica si la referencia (No. de Factura del proveedor) no está ya asignada a alguna otra recepción.
+        /// </summary>
+        public DataRow ValidaNoDuplicidadReferencia(string pReferencia, string pNumProveedor)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@Referencia", pReferencia);
+            Parametros.Add("@NumProveedor", pNumProveedor);
+
+            var datos = db.ExecuteSelect("ADN_RcpProv_ValidaNoDuplicidadReferencia", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Permite capturar un registror de partida de recepcon de orden de compra
+        /// </summary>
+        /// <param name="pOrdenCompra">Número de Orden de Compra</param>
+        /// <param name="pClave">Clave Interna de product</param>
+        /// <param name="pCodigoBarras">Codigo de barras escaneado asociado al producto</param>
+        /// <param name="pMultiplo">Múltiplo de empaque asociado al código de barras escaneado</param>
+        /// <param name="pNivel">Nivel de empaque asociado al código de barras escaneado</param>
+        /// <param name="pCantidad">Cantidad recibida</param>
+        public DataRow AgregarPartida(string pOrdenCompra, string pMoneda, string pProveedor, string pCodigoBarras, float pCantidad, string pReferenciaFactura, string pUsuario)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
+            Parametros.Add("@Moneda", pMoneda);
+            Parametros.Add("@Proveedor", pProveedor);
+            Parametros.Add("@CodigoBarras",pCodigoBarras );
+            Parametros.Add("@Cantidad", pCantidad);
+            Parametros.Add("@ReferenciaFactura", pReferenciaFactura);
+            Parametros.Add("@Usuario", pUsuario);
+
+            var datos = db.ExecuteSelect("ADN_RcpProv_AgregarPartida_New", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Verifica si ya se ha recibido completamente la partida
+        /// </summary>
+        public DataRow ObtenerCantidadRecibida(string pOrdenCompra, string pClave)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
+            Parametros.Add("@Articulo", pClave);
+
+            var datos = db.ExecuteSelect("ADN_RcpProv_ObtenerCantidadRecibida", Parametros);
+
+            if (datos.Rows.Count > 0)
+            {
+                DataRow registro = datos.Rows[0];
+                return registro;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Permite actualizar el registro de la recepcion con los datos de finalización.
+        /// </summary>
+        public bool FinalizarRecepcion(string pOrdenCompra, string pReferenciaFactura)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@Abastecedor", pOrdenCompra);
+            Parametros.Add("@ReferenciaFactura", pReferenciaFactura);
+
+            db.ExecuteNonQuery("ADN_RcpProv_FinRececpion", Parametros);
+
+            return true;
+        }
+
+        public int EliminarPartida(string pOrdenCompra, string pClave, string pUsuario)
+        {
+
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
+            Parametros.Add("@Producto", pClave);
+            Parametros.Add("@Usuario", pUsuario);
+
+            int resp = db.ExecuteNonQuery("ADN_RcpProv_EliminarPartida", Parametros);
+
+            return resp;
+        }
+
+
+        /*******************************/
+        /*
         public DataRow ObtenerDatosOrdenCompra(string pOrdenCompra)
         {
             DataSet ds = new DataSet();
@@ -68,12 +235,9 @@ namespace Movil_RIDA
                 }
             }//finally
         }
+        */
 
-        /// <summary>
-        /// Permite actualizar el registro de la recepcion con los datos de finalización.
-        /// </summary>
-        /// <param name="pOrdenCompra">Número de Orden de compra a la que se finalizará la recepción</param>
-        /// <returns></returns>
+        /*
         public bool FinalizarRecepcion(string pOrdenCompra, string pReferenciaFactura)
         {
             try
@@ -111,13 +275,9 @@ namespace Movil_RIDA
                 }
             }//finally
         }
+        */
 
-        /// <summary>
-        /// Verifica si la referencia (No. de Factura del proveedor) no está ya asignada a alguna otra recepción.
-        /// </summary>
-        /// <param name="pReferencia">Número de factura del proveedor que se asigna como referencia a la recepción.</param>
-        /// <param name="pNumProveedor">Número interno del proveedor al cual se le realiza la recepción.</param>
-        /// <returns></returns>
+        /*
         public DataSet ValidaNoDuplicidadReferencia(string pReferencia, string pNumProveedor)
         {
             DataSet ds = new DataSet();
@@ -156,13 +316,131 @@ namespace Movil_RIDA
             return null;
 
         }
+        */
 
-        /*******************************/
+        /*
+        public void ObtenerCantidadRecibida(string pOrdenCompra, string pClave)
+        {
+            DataSet ds = new DataSet();
+            DataRow dr;
+            try
+            {
+                //Declaramos el comando para ejecutar el query
+                SqlDataAdapter da = new SqlDataAdapter();
+                SqlCommand cmd = new SqlCommand("ADN_RcpProv_ObtenerCantidadRecibida", Global.cnSQL);
+                cmd.CommandType = CommandType.StoredProcedure;
+                da.SelectCommand = cmd;
+                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
+                cmd.Parameters.AddWithValue("@Articulo", pClave);
+                //Abrimos conexin a BD
+                Global.cnSQL.Open();
+                //Llenanos un DataSet con el resultado de la consulta
+                da.Fill(ds);
+                dr = ds.Tables[0].Rows[0];
+                //
+                this.CantidadRecibida = Convert.ToSingle(dr["CantidadRecibida"]);
+                this.CantidadOrdenada = Convert.ToSingle(dr["CantidadOrdenada"]);
 
-        /// <summary>
-        /// Permite verificar si existe una partida pendiente de RECIBIR de un usuario, es decir, que tenga status RECIBIENDO
-        /// </summary>
-        /// <param name="pUsuario">Número de usuario que esta realizando la recepción</param>
+            }//try
+            catch (SqlException myexception)
+            {
+                foreach (SqlError err in myexception.Errors)
+                {
+                    MessageBox.Show(err.Message, "Error SQL");
+                }
+            } // catch
+            finally
+            {
+                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
+                {
+                    //Cerramos conexin a BD
+                    Global.cnSQL.Close();
+                }
+            }//finally
+        }
+        */
+
+        /*
+        public DataRow AgregarPartida(string pOrdenCompra, string pMoneda, string pProveedor, string pCodigoBarras, float pCantidad, string pReferenciaFactura, string pUsuario)
+        {
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataSet ds = new DataSet();
+            DataRow dr;
+
+            try
+            {
+                //Declaramos el comando para ejecutar el query
+                SqlCommand cmd = new SqlCommand("ADN_RcpProv_AgregarPartida_New", Global.cnSQL);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
+                cmd.Parameters.AddWithValue("@Moneda", pMoneda);
+                cmd.Parameters.AddWithValue("@Proveedor", pProveedor);
+                cmd.Parameters.AddWithValue("@CodigoBarras", pCodigoBarras);
+                cmd.Parameters.AddWithValue("@Cantidad", pCantidad);
+                cmd.Parameters.AddWithValue("@ReferenciaFactura", pReferenciaFactura);
+                cmd.Parameters.AddWithValue("@Usuario", pUsuario);
+                da.SelectCommand = cmd;
+                //Ejecutamos comando
+                Global.cnSQL.Open();
+                da.Fill(ds);
+                dr = ds.Tables[0].Rows[0];
+                return dr;
+            }//try
+            catch (SqlException myexception)
+            {
+                foreach (SqlError err in myexception.Errors)
+                {
+                    MessageBox.Show(err.Message, "Error SQL");
+                }
+
+            } // catch
+            finally
+            {
+                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
+                {
+                    //Cerramos conexión a BD
+                    Global.cnSQL.Close();
+                }
+            }//finally
+            return null;
+        }
+        */
+
+        /*
+        public int EliminarPartida(string pOrdenCompra, string pClave, string pUsuario)
+        {
+            try
+            {
+                //Declaramos el comando para ejecutar el query
+                SqlCommand cmd = new SqlCommand("ADN_RcpProv_EliminarPartida", Global.cnSQL);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
+                cmd.Parameters.AddWithValue("@Producto", pClave);
+                cmd.Parameters.AddWithValue("@Usuario", pUsuario);
+                Global.cnSQL.Open();
+                return cmd.ExecuteNonQuery();
+            }//try
+            catch (SqlException myexception)
+            {
+                foreach (SqlError err in myexception.Errors)
+                {
+                    MessageBox.Show(err.Message, "Error SQL");
+                }
+
+            } // catch
+            finally
+            {
+                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
+                {
+                    //Cerramos conexión a BD
+                    Global.cnSQL.Close();
+                }
+            }//finally
+            return -1;
+        }
+        */
+
+        /*
         public void ContinuarRecpecionPartida(string pUsuario)
         {
             DataSet ds = new DataSet();
@@ -214,11 +492,9 @@ namespace Movil_RIDA
                 }
             }//finally
         }
+        */
 
-        /// <summary>
-        /// Permite eliminar los registros asociados a una recepción de orden de compra
-        /// </summary>
-        /// <param name="pOrdenCompra">Orden de compra de la cual se eliminaron los registros asociados para la recepcion</param>
+        /*
         public bool CancelarRecpecionPartida(string pOrdenCompra, string pProducto)
         {
             DataSet ds = new DataSet();
@@ -255,137 +531,7 @@ namespace Movil_RIDA
                 }
             }//finally
         }
-
-        /// <summary>
-        /// Verifica si ya se ha recibido completamente la partida
-        /// </summary>
-        /// <param name="pOrdenCompra">Número de Orden de Compra</param>
-        /// <param name="pClave">Clave interna del producto de la partida a verificar</param>
-        public void ObtenerCantidadRecibida(string pOrdenCompra, string pClave)
-        {
-            DataSet ds = new DataSet();
-            DataRow dr;
-            try
-            {
-                //Declaramos el comando para ejecutar el query
-                SqlDataAdapter da = new SqlDataAdapter();
-                SqlCommand cmd = new SqlCommand("ADN_RcpProv_ObtenerCantidadRecibida", Global.cnSQL);
-                cmd.CommandType = CommandType.StoredProcedure;
-                da.SelectCommand = cmd;
-                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
-                cmd.Parameters.AddWithValue("@Articulo", pClave);
-                //Abrimos conexin a BD
-                Global.cnSQL.Open();
-                //Llenanos un DataSet con el resultado de la consulta
-                da.Fill(ds);
-                dr = ds.Tables[0].Rows[0];
-                //
-                this.CantidadRecibida = Convert.ToSingle(dr["CantidadRecibida"]);
-                this.CantidadOrdenada = Convert.ToSingle(dr["CantidadOrdenada"]);
-
-            }//try
-            catch (SqlException myexception)
-            {
-                foreach (SqlError err in myexception.Errors)
-                {
-                    MessageBox.Show(err.Message, "Error SQL");
-                }
-            } // catch
-            finally
-            {
-                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
-                {
-                    //Cerramos conexin a BD
-                    Global.cnSQL.Close();
-                }
-            }//finally
-        }
-
-
-        public int EliminarPartida(string pOrdenCompra, string pClave, string pUsuario)
-        {
-            try
-            {
-                //Declaramos el comando para ejecutar el query
-                SqlCommand cmd = new SqlCommand("ADN_RcpProv_EliminarPartida", Global.cnSQL);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
-                cmd.Parameters.AddWithValue("@Producto", pClave);
-                cmd.Parameters.AddWithValue("@Usuario", pUsuario);
-                Global.cnSQL.Open();
-                return cmd.ExecuteNonQuery();
-            }//try
-            catch (SqlException myexception)
-            {
-                foreach (SqlError err in myexception.Errors)
-                {
-                    MessageBox.Show(err.Message, "Error SQL");
-                }
-
-            } // catch
-            finally
-            {
-                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
-                {
-                    //Cerramos conexión a BD
-                    Global.cnSQL.Close();
-                }
-            }//finally
-            return -1;
-        }
-
-        /// <summary>
-        /// Permite capturar un registror de partida de recepcon de orden de compra
-        /// </summary>
-        /// <param name="pOrdenCompra">Número de Orden de Compra</param>
-        /// <param name="pClave">Clave Interna de product</param>
-        /// <param name="pCodigoBarras">Codigo de barras escaneado asociado al producto</param>
-        /// <param name="pMultiplo">Múltiplo de empaque asociado al código de barras escaneado</param>
-        /// <param name="pNivel">Nivel de empaque asociado al código de barras escaneado</param>
-        /// <param name="pCantidad">Cantidad recibida</param>
-        public DataRow AgregarPartida(string pOrdenCompra, string pMoneda, string pProveedor, string pCodigoBarras, float pCantidad, string pReferenciaFactura, string pUsuario)
-        {
-            SqlDataAdapter da = new SqlDataAdapter();
-            DataSet ds = new DataSet();
-            DataRow dr;
-
-            try
-            {
-                //Declaramos el comando para ejecutar el query
-                SqlCommand cmd = new SqlCommand("ADN_RcpProv_AgregarPartida_New", Global.cnSQL);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@OrdenCompra", pOrdenCompra);
-                cmd.Parameters.AddWithValue("@Moneda", pMoneda);
-                cmd.Parameters.AddWithValue("@Proveedor", pProveedor);
-                cmd.Parameters.AddWithValue("@CodigoBarras", pCodigoBarras);
-                cmd.Parameters.AddWithValue("@Cantidad", pCantidad);
-                cmd.Parameters.AddWithValue("@ReferenciaFactura", pReferenciaFactura);
-                cmd.Parameters.AddWithValue("@Usuario", pUsuario);
-                da.SelectCommand = cmd;
-                //Ejecutamos comando
-                Global.cnSQL.Open();
-                da.Fill(ds);
-                dr = ds.Tables[0].Rows[0];
-                return dr;
-            }//try
-            catch (SqlException myexception)
-            {
-                foreach (SqlError err in myexception.Errors)
-                {
-                    MessageBox.Show(err.Message, "Error SQL");
-                }
-
-            } // catch
-            finally
-            {
-                if (Global.cnSQL != null && Global.cnSQL.State != ConnectionState.Closed)
-                {
-                    //Cerramos conexión a BD
-                    Global.cnSQL.Close();
-                }
-            }//finally
-            return null;
-        }
+        */
 
         //Obsoleto eliminar despues de publicar cambio en produccion
         public DataRow AgregarPartida(string pOrdenCompra, string pMoneda, string pProveedor, string pClave, string pCodigoBarras, float pMultiplo, float pNivel, float pCantidad, string pUsuario)

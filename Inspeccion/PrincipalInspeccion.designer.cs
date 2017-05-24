@@ -177,6 +177,7 @@
             this.Name = "PrincipalInspeccion";
             this.Text = "Registro de Inspección";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.PrincipalInspeccion_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

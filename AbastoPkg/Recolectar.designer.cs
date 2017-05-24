@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbNoTransferencia = new System.Windows.Forms.Label();
             this.btnLocalizaciones = new System.Windows.Forms.Button();
             this.lbCantRecolectar = new System.Windows.Forms.Label();
             this.lbClave = new System.Windows.Forms.Label();
@@ -42,14 +41,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbNoTransferencia
-            // 
-            this.lbNoTransferencia.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.lbNoTransferencia.Location = new System.Drawing.Point(14, 8);
-            this.lbNoTransferencia.Name = "lbNoTransferencia";
-            this.lbNoTransferencia.Size = new System.Drawing.Size(220, 20);
-            this.lbNoTransferencia.Text = "Trns:";
             // 
             // btnLocalizaciones
             // 
@@ -65,7 +56,7 @@
             // lbCantRecolectar
             // 
             this.lbCantRecolectar.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold);
-            this.lbCantRecolectar.Location = new System.Drawing.Point(14, 183);
+            this.lbCantRecolectar.Location = new System.Drawing.Point(14, 156);
             this.lbCantRecolectar.Name = "lbCantRecolectar";
             this.lbCantRecolectar.Size = new System.Drawing.Size(124, 20);
             this.lbCantRecolectar.Text = "Nivel Buffer:";
@@ -86,7 +77,7 @@
             this.lbDescripcion.BackColor = System.Drawing.Color.Yellow;
             this.lbDescripcion.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Bold);
             this.lbDescripcion.ForeColor = System.Drawing.Color.Black;
-            this.lbDescripcion.Location = new System.Drawing.Point(14, 85);
+            this.lbDescripcion.Location = new System.Drawing.Point(14, 56);
             this.lbDescripcion.Name = "lbDescripcion";
             this.lbDescripcion.Size = new System.Drawing.Size(220, 40);
             this.lbDescripcion.Text = "DESCRIPCION";
@@ -94,7 +85,7 @@
             // lbSemaforo
             // 
             this.lbSemaforo.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Bold);
-            this.lbSemaforo.Location = new System.Drawing.Point(14, 131);
+            this.lbSemaforo.Location = new System.Drawing.Point(14, 6);
             this.lbSemaforo.Name = "lbSemaforo";
             this.lbSemaforo.Size = new System.Drawing.Size(220, 20);
             this.lbSemaforo.Text = "SEMAFORO";
@@ -103,12 +94,13 @@
             // lbLockPkg
             // 
             this.lbLockPkg.BackColor = System.Drawing.Color.Yellow;
-            this.lbLockPkg.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.lbLockPkg.ForeColor = System.Drawing.Color.Red;
-            this.lbLockPkg.Location = new System.Drawing.Point(14, 58);
+            this.lbLockPkg.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.lbLockPkg.ForeColor = System.Drawing.Color.Blue;
+            this.lbLockPkg.Location = new System.Drawing.Point(14, 100);
             this.lbLockPkg.Name = "lbLockPkg";
             this.lbLockPkg.Size = new System.Drawing.Size(220, 20);
             this.lbLockPkg.Text = "LocPkg";
+            this.lbLockPkg.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnSiguiente
             // 
@@ -126,7 +118,7 @@
             this.lbBuffer.BackColor = System.Drawing.Color.Black;
             this.lbBuffer.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.lbBuffer.ForeColor = System.Drawing.Color.Blue;
-            this.lbBuffer.Location = new System.Drawing.Point(144, 157);
+            this.lbBuffer.Location = new System.Drawing.Point(144, 130);
             this.lbBuffer.Name = "lbBuffer";
             this.lbBuffer.Size = new System.Drawing.Size(90, 20);
             this.lbBuffer.Text = "0";
@@ -135,7 +127,7 @@
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.label3.Location = new System.Drawing.Point(38, 161);
+            this.label3.Location = new System.Drawing.Point(38, 134);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 20);
             this.label3.Text = "Buffer:";
@@ -146,7 +138,7 @@
             this.lbNivelBuffer.BackColor = System.Drawing.Color.Black;
             this.lbNivelBuffer.Font = new System.Drawing.Font("Tahoma", 14F, System.Drawing.FontStyle.Regular);
             this.lbNivelBuffer.ForeColor = System.Drawing.Color.Red;
-            this.lbNivelBuffer.Location = new System.Drawing.Point(144, 183);
+            this.lbNivelBuffer.Location = new System.Drawing.Point(144, 156);
             this.lbNivelBuffer.Name = "lbNivelBuffer";
             this.lbNivelBuffer.Size = new System.Drawing.Size(90, 20);
             this.lbNivelBuffer.Text = "0";
@@ -156,7 +148,6 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel1.Controls.Add(this.lbNoTransferencia);
             this.panel1.Controls.Add(this.lbNivelBuffer);
             this.panel1.Controls.Add(this.btnLocalizaciones);
             this.panel1.Controls.Add(this.label3);
@@ -192,7 +183,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lbNoTransferencia;
         private System.Windows.Forms.Button btnLocalizaciones;
         private System.Windows.Forms.Label lbCantRecolectar;
         private System.Windows.Forms.Label lbClave;
