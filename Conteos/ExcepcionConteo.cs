@@ -24,40 +24,46 @@ namespace Movil_RIDA
                 MessageBox.Show("Debe registrar un código de barras de producto.");
                 return;
             }
-            if (!Producto.ValidaCantidad(txtCantidadExp.Text))
+            if (!Global.ValidaCantidad(txtCantidadExp.Text))
             {
                 MessageBox.Show("Cantidad invalida, favor de verifica");
                 return;
             }
 
-            float CantidadExcepcion = Convert.ToSingle(txtCantidadExp.Text);
+            float CantidadExcepcion = Convert.ToSingle(txtCantidadExp.Text.ToString());
 
             if (CantidadExcepcion<=0)
             {
                 MessageBox.Show("La cantidad debe de ser mayor a cero.");
                 return;
             }
-
-            DataRow dr = conteo.AgregarLocalizacionExcepcion(Conteo.NoConteo, Conteo.ClaveContar, txtLocalizacionExp.Text.Trim().ToUpper(), CantidadExcepcion, Global.Usuario);
-
-            if (dr[0].ToString() != "0")
-            {
-                MessageBox.Show(dr[1].ToString());
-                return;
-            }
-
-            MessageBox.Show("Excepción registrada correctamente.");
-
             try
             {
-                this.Close();
-                ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
-                fLocalizacion.Show();
+                DataRow dr = conteo.AgregarLocalizacionExcepcion(Conteo.NoConteo, Conteo.ClaveContar, txtLocalizacionExp.Text.Trim().ToUpper(), CantidadExcepcion, Global.Usuario);
+                if (dr!=null)
+                {
+                    if (dr[0].ToString() == "0")
+                    {
+                        MessageBox.Show("Excepción registrada correctamente.");
+                        this.Close();
+                        ConfirmarLocalizacion fLocalizacion = new ConfirmarLocalizacion();
+                        fLocalizacion.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show(dr[1].ToString());
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }  
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                MessageBox.Show("ERROR."+e.Message);
             }
-
         }
 
         // constructor
@@ -101,6 +107,7 @@ namespace Movil_RIDA
 
                     if (producto.Clave == Conteo.ClaveContar)
                     {
+                        lbProductoExcepcion.Text = producto.Descripcion;
                         txtCantidadExp.Focus();
                     }
                     else
@@ -120,5 +127,6 @@ namespace Movil_RIDA
                 Agregarexcepcion();
             }
         }
+
     }
 }

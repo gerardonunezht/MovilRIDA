@@ -13,21 +13,14 @@ namespace Movil_RIDA
             InitializeComponent();
         }
 
-
         private void LocalizacionesDisponible_Load(object sender, EventArgs e)
         {            
-            //dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesVacias().Tables[0];
-            //btnLocalizaciones.Text = "Mostrar: Con Existencia";
-
             dgLocalizaciones.DataSource = disp.ObtenerLocalizacionesProductoExistencia(DisponiblePlanta.ClaveColocar).Tables[0];
             btnLocalizaciones.Text = "Sugerir: Vacias";
             MostrarVacias = true;
-
             lbColocar.Text = "A COLOCAR: " + DisponiblePlanta.CantColocar;
             lbSeleccionado.Text = "SEL.: " + DisponiblePlanta.ClaveColocar;
-
             txtLocalizacion.Focus();
-
         }
 
         private void btnLocalizaciones_Click(object sender, EventArgs e)
@@ -59,7 +52,6 @@ namespace Movil_RIDA
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-            
             PrincipalDisponiblePlanta DispPlanta = new PrincipalDisponiblePlanta();
             DispPlanta.Show();
             this.Close();

@@ -106,7 +106,6 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.txtSeleccionar);
             this.panel1.Controls.Add(this.dgDisponible);
             this.panel1.Controls.Add(this.lbDescripcion);
@@ -114,6 +113,7 @@
             this.panel1.Controls.Add(this.lbColocar);
             this.panel1.Controls.Add(this.btnSalir);
             this.panel1.Controls.Add(this.lbSeleccionado);
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(245, 295);

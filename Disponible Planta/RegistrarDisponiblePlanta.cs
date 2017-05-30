@@ -12,6 +12,7 @@ namespace Movil_RIDA
         public string NoError = "";
         public string MensajeError = "";
         public string CantidadTotal = "0";
+        Product producto = new Product();
 
         public RegistrarDisponiblePlanta()
         {
@@ -48,6 +49,11 @@ namespace Movil_RIDA
             else
             {
                 MessageBox.Show(MensajeError, "Aviso!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+                txtCB.Text="";
+                txtCB.Focus();
+                txtMultiplo.Text = "";
+                lbDescripcion.Text = "";
+                lbClave.Text=DisponiblePlanta.ClaveColocar;
             }
         }
 
@@ -66,7 +72,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtCB.Text == "") || (txtCB.Text == null))
+                if (string.IsNullOrEmpty(txtCB.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtCB.Focus();
@@ -74,16 +80,16 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    disp.ObtenerDatosProducto(txtCB.Text.Trim(), Global.IdProcesoADN);
+                    producto=producto.GetDatosProducto(txtCB.Text.Trim());
 
-                    if (disp.Clave != "")
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         //Mostramos información en pantalla
-                        lbClave.Text = disp.Clave;
-                        lbDescripcion.Text = disp.Descripcion;
-                        txtMultiplo.Text = disp.Multiplo.ToString();
+                        lbClave.Text = producto.Clave;
+                        lbDescripcion.Text = producto.Descripcion;
+                        txtMultiplo.Text = producto.Multiplo.ToString();
 
-                        if ((disp.PermiteCapturarMultiplo == "SI") || (disp.Nivel > 1))
+                        if ((producto.PermiteCapturarMultiplo == "SI") || (producto.Nivel > 1))
                         {
                             txtCantidad.Enabled = true;
                             txtCantidad.Focus();
@@ -114,7 +120,7 @@ namespace Movil_RIDA
                 if (Global.ValidaCantidad(txtCantidad.Text))
                 {
                     //Cantidad a registrar es igual a la multiplicación del múltiplo del empaque del artículo por la cantidad de empaques
-                    float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * disp.Multiplo;
+                    float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * producto.Multiplo;
 
                     RegistrarPartidaDisponible(CantidadRegistrar);
                 }
@@ -134,9 +140,8 @@ namespace Movil_RIDA
             if (resp == DialogResult.Yes)
             {
                 //Eliminamos el último registro insertado                
-                //string cantidadActualizada = disp.eliminarRegistroDisponible(Disponible.ID, Global.Usuario);
                 CantidadTotal = disp.eliminarRegistroDisponible(DisponiblePlanta.ID, Global.Usuario);
-                if (CantidadTotal != "")
+                if (!string.IsNullOrEmpty(CantidadTotal))
                 {
                     //Se eliminó la partida
                     btnEliminarUltimaPartida.Enabled = false;
@@ -165,7 +170,7 @@ namespace Movil_RIDA
             }
             else
             {
-                MessageBox.Show("No se registraron movimientos, la aplicación se cerrará y la partida seguira con status de ACEPTADA. ", "AVISO!!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("No se registraron movimientos, la aplicación se cerrará y la partida continuará como COLOCAR. ", "AVISO!!!!", MessageBoxButtons.OK, MessageBoxIcon.Hand, MessageBoxDefaultButton.Button1);
                 this.Close();
                 PrincipalDisponiblePlanta fPrincipal = new PrincipalDisponiblePlanta();
                 fPrincipal.Show();

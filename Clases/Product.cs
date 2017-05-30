@@ -38,7 +38,6 @@ namespace Movil_RIDA
             {
                 DataRow dr = datos.Rows[0];
 
-                obj.CodBarras=pCodigoBarras;
                 obj.CodBarras = pCodigoBarras;
                 obj.Clave = dr["Clave"].ToString().Trim();
                 obj.Descripcion = dr["Descripcion"].ToString().Trim();
@@ -173,5 +172,7 @@ namespace Movil_RIDA
             return null;
              */
         }       
+
+
     }
 }

@@ -120,11 +120,12 @@
             // 
             // lblTrnsfrDocNbr
             // 
-            this.lblTrnsfrDocNbr.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTrnsfrDocNbr.Location = new System.Drawing.Point(3, 1);
+            this.lblTrnsfrDocNbr.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTrnsfrDocNbr.Location = new System.Drawing.Point(3, 3);
             this.lblTrnsfrDocNbr.Name = "lblTrnsfrDocNbr";
             this.lblTrnsfrDocNbr.Size = new System.Drawing.Size(214, 19);
-            this.lblTrnsfrDocNbr.Text = "Número de Transferencia:";
+            this.lblTrnsfrDocNbr.Text = "Número de Ref: ";
+            this.lblTrnsfrDocNbr.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // btnIniciar
             // 
@@ -154,7 +155,7 @@
             this.txtTrnsfrDocNbr.BackColor = System.Drawing.Color.Yellow;
             this.txtTrnsfrDocNbr.Enabled = false;
             this.txtTrnsfrDocNbr.ForeColor = System.Drawing.Color.Blue;
-            this.txtTrnsfrDocNbr.Location = new System.Drawing.Point(3, 23);
+            this.txtTrnsfrDocNbr.Location = new System.Drawing.Point(3, 26);
             this.txtTrnsfrDocNbr.MaxLength = 15;
             this.txtTrnsfrDocNbr.Name = "txtTrnsfrDocNbr";
             this.txtTrnsfrDocNbr.Size = new System.Drawing.Size(214, 23);

@@ -167,7 +167,7 @@ namespace Movil_RIDA
         public bool FinalizarRecepcion(string pOrdenCompra, string pReferenciaFactura)
         {
             Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@Abastecedor", pOrdenCompra);
+            Parametros.Add("@OrdenCompra", pOrdenCompra);
             Parametros.Add("@ReferenciaFactura", pReferenciaFactura);
 
             db.ExecuteNonQuery("ADN_RcpProv_FinRececpion", Parametros);

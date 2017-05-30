@@ -1,10 +1,11 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Movil_RIDA.Clases
 {
-    class DisponiblePlanta:Producto
+    class DisponiblePlanta
     {
         /// <summary>
         /// Variables estáticas utilizadas para
@@ -14,10 +15,21 @@ namespace Movil_RIDA.Clases
         public static string DescripcionProd { get; set; }
         public static string ClaveColocar { get; set; } //Guarda la clave del producto seleccionado colocar como disponible
         public static string CantColocar { get; set; }
+        private AccesoDatos db;// objeto para el acceso a datos
+       
+        // contructor
+        public DisponiblePlanta()
+        {
+            //Establecemos la cadena de conexión a la BD
+            db = new AccesoDatos(Properties.Resources.cnStr);
+        }
 
-        //
         public DataSet obtenerProductosRegistrados()
         {
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_ObtenerProductosRegistrados");
+            return datos.DataSet;
+        }
+        /*{
             DataSet ds = new DataSet();
             try
             {
@@ -50,11 +62,25 @@ namespace Movil_RIDA.Clases
             }//finally
             return null;
         }
+        */
 
 
-        
 
         public DataRow iniciarProcesoDisponiblePlanta(string pID, string pUsuario)
+        {
+            DataRow registro = null;
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@ID", pID);
+            Parametros.Add("@Usuario", pUsuario);
+
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_IniciarDisponible", Parametros);
+            if (datos.Rows.Count > 0)
+            {
+                registro = datos.Rows[0];
+            }
+            return registro;
+        }
+            /*
         {
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
@@ -92,10 +118,22 @@ namespace Movil_RIDA.Clases
             }//finally
             return null;
         }
-
+            */
 
 
         public DataRow SeleccionarProductoDisponible(string pClave)
+        {
+            DataRow registro = null;
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@claveProducto", pClave);
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_ObtenerProductoRegistrado", Parametros);
+            if (datos.Rows.Count > 0)
+            {
+                registro = datos.Rows[0];
+            }
+            return registro;
+        }
+            /*
         {
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
@@ -133,12 +171,19 @@ namespace Movil_RIDA.Clases
             return null;
         }
 
-
+            */
         public DataSet VerificarTransferenciaError(string pNumAbastecedor)
         {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@NumAbastecedor", pNumAbastecedor);
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_TransferenciasDisponiblePlantaConError", Parametros);
+            return datos.DataSet;
+        }
+
             /*
-            Ejecuta el SP que verificar si existen recolecciones pendientes de Re-Abastecer, antes de hacer otra recolección
-            */
+        {
+            //Ejecuta el SP que verificar si existen recolecciones pendientes de Re-Abastecer, antes de hacer otra recolección
+            
 
             DataSet ds = new DataSet();
             try
@@ -174,8 +219,15 @@ namespace Movil_RIDA.Clases
             return null;
         }
 
-
+    */
         public DataSet ObtenerLocalizacionesProductoExistencia(string pArticulo)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@Articulo", pArticulo);
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_ObtenerLocalizacionesProductoExistencia", Parametros);
+            return datos.DataSet;
+        }
+        /*
         {
             DataSet ds = new DataSet();
             try
@@ -210,8 +262,13 @@ namespace Movil_RIDA.Clases
             }//finally
             return null;
         }
-
+            */
         public DataSet ObtenerLocalizacionesVacias()
+        {
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_ObtenerLocalizacionesVacias");
+            return datos.DataSet;
+        }
+        /*
         {
             DataSet ds = new DataSet();
             try
@@ -245,8 +302,25 @@ namespace Movil_RIDA.Clases
             }//finally
             return null;
         }
-
+        */
         public string eliminarRegistroDisponible(string pID, string pUsuario)
+        {
+            string valor = "";
+            DataRow registro = null;
+            
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@ID", pID);
+            Parametros.Add("@Usuario", pUsuario);
+
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_EliminarRegistroDisponible", Parametros);
+            if (datos.Rows.Count > 0)
+            {
+                registro = datos.Rows[0];
+                valor=registro[0].ToString();
+            }
+            return valor;
+        }
+        /*
         {
             string valor = "";
 
@@ -284,8 +358,24 @@ namespace Movil_RIDA.Clases
             }//finally
 
         }
-
+            */
         public DataRow registrarDisponiblePlanta(string pID, string pLocalizacion, string pCodigoBarras, float pCantidad, string pUsuario)
+        {
+            DataRow registro = null;
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@ID", pID);
+            Parametros.Add("@LocalizacionColocar", pLocalizacion);
+            Parametros.Add("@CodigoBarras", pCodigoBarras);
+            Parametros.Add("@Cantidad", pCantidad);
+            Parametros.Add("@Usuario", pUsuario);
+            var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_RegistrarDisponible", Parametros);
+            if (datos.Rows.Count > 0)
+            {
+                registro = datos.Rows[0];
+            }
+            return registro;
+        }
+        /*
         {
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
@@ -326,9 +416,16 @@ namespace Movil_RIDA.Clases
             }//finally
             return null;
         }
+          */
 
         //
         public void finalizarDisponible(string pID)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@ID", pID);
+            db.ExecuteNonQuery("ADN_DisponibleRcpPlanta_FinalizarDisponible", Parametros);
+        }
+        /*
         {
             try
             {
@@ -358,5 +455,6 @@ namespace Movil_RIDA.Clases
             }//finally
         }
 
+         */
     }//End Class
 }//End Namespace

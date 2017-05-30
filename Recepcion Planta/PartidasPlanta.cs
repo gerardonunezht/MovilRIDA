@@ -9,11 +9,13 @@ namespace Movil_RIDA
 
         //Partida partida = new Partida();
         RecepcionPlanta recepcion = new RecepcionPlanta();
-
+        private Product producto ;
+        private float CantidadRecibida { get; set; }
+        private float CantidadOrdenada { get; set; }
+        private string Clave { get; set; }
         public PartidasPlanta()
         {
             InitializeComponent();
-            txtCB.Focus();
         }
 
         #region Métodos
@@ -25,16 +27,18 @@ namespace Movil_RIDA
             lbMultiploEmpaque.Text = "";
             lbCantOrdenada.Text = "";
             lbCantRecibida.Text = "";
+            txtCantidad.Text = "";
             btnEliminarUltimaPartida.Enabled = false;
             lbCantidad.Visible = false;
             txtCantidad.Visible = false;
+            
             
         }
         
         private void ValidaRecepcionPartidaCompleta()
         {
             
-            recepcion.ObtenerCantidadRecibida(RecepcionPlanta.TrnsfrDocNbr, recepcion.Clave);
+            recepcion.ObtenerCantidadRecibida(RecepcionPlanta.TrnsfrDocNbr, producto.Clave);
             
 
             lbCantRecibida.Text = recepcion.CantidadRecibida.ToString().Trim();
@@ -49,11 +53,11 @@ namespace Movil_RIDA
              */
             if (recepcion.CantidadRecibida > recepcion.CantidadOrdenada)
             {
-                MessageBox.Show("No se puede recibir la el articulo:"+recepcion.Clave+" con excedente. Favor de verificar.", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("No se puede recibir el articulo:"+producto.Clave+" con excedente. Favor de verificar.", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 return;
             }else if (recepcion.CantidadRecibida == recepcion.CantidadOrdenada)
             {
-                MessageBox.Show("La partida: " + recepcion.Clave + " se ha recibido totalmente conforme a la transferencia: "+RecepcionPlanta.TrnsfrDocNbr.Trim() , "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                MessageBox.Show("La partida: " + producto.Clave + " se ha recibido totalmente conforme a la transferencia: "+RecepcionPlanta.TrnsfrDocNbr.Trim() , "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                 Limpiar();
                 if (recepcion.PartidasCompletas)
                 {
@@ -79,7 +83,7 @@ namespace Movil_RIDA
             }
 
             //Registramos la partida en la Base de datos
-            dr = recepcion.AgregarPartida(RecepcionPlanta.TrnsfrDocNbr, recepcion.CodBarras, CantidadRecibida, Global.Usuario,RecepcionPlanta.BatNbr);
+            dr = recepcion.AgregarPartida(RecepcionPlanta.TrnsfrDocNbr, producto.CodBarras, CantidadRecibida, Global.Usuario,RecepcionPlanta.BatNbr);
 
             string NoError = dr[0].ToString();
             string MensajeError=dr[1].ToString();
@@ -100,6 +104,7 @@ namespace Movil_RIDA
                 //Limpiar();
                 txtCB.Text = "";
                 txtCB.Focus();
+                txtCantidad.Visible = false;
                 
             }
 
@@ -112,7 +117,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtCB.Text == "") || (txtCB.Text == null))
+                if (string.IsNullOrEmpty(txtCB.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtCB.Focus();
@@ -120,36 +125,37 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    recepcion.ObtenerDatosProducto(txtCB.Text.Trim(), Global.IdProcesoADN);
+                    producto = producto.GetDatosProducto(txtCB.Text.Trim());
 
-                    if (recepcion.Clave != "")                                        
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         //Mostramos información en pantalla
-                        lbClave.Text = recepcion.Clave;
-                        lbDescripcion.Text = recepcion.Descripcion;
-                        lbMultiploEmpaque.Text = recepcion.Multiplo.ToString();
+                        lbClave.Text = producto.Clave;
+                        lbDescripcion.Text = producto.Descripcion;
+                        lbMultiploEmpaque.Text = producto.Multiplo.ToString();
 
-                        if (recepcion.PermiteCapturarMultiplo == "SI")
+                        var aceptaMultiplo = producto.PermiteCapturarMultiploEmpaque(producto.Clave, Global.IdProcesoADN);
+
+                        //if (recepcion.PermiteCapturarMultiplo == "SI")
+                        if (aceptaMultiplo == "SI")
                         {
                             lbCantidad.Visible = true;
                             txtCantidad.Visible = true;
                             txtCantidad.Focus();
                         }
                         else
-                        {                                                    
+                        {
                             //Regresamos un -1 en cantidad para indicarle al sistema que tome el multiplo del producto como la cantidad
-                            RegistrarPartida(-1);  
-                        }                                     
+                            RegistrarPartida(-1);
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("El código de barras registrado no está asociado a una clave de artículo, favor de verificar con Supervisor Administrativo", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
+                        MessageBox.Show("El código de barras registrado no está asociado a una clave de artículo, favor de verificarlo", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                         txtCB.Text = "";
                         txtCB.Focus();
                     }
-                }     
-
-
+                }
             }
         }
 
@@ -160,10 +166,10 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validar si lo registrado en el campo cantidad, tiene formato de numérico de 999999.99
-                if (Producto.ValidaCantidad(txtCantidad.Text) && !txtCantidad.Text.Equals("0"))
+                if (Global.ValidaCantidad(txtCantidad.Text) && !txtCantidad.Text.Equals("0"))
                 {
                         //Cantidad a registrar es igual a la multiplicación del múltiplo del empaque del artículo por la cantidad de empaques
-                        float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * recepcion.Multiplo;
+                        float CantidadRegistrar = Convert.ToSingle(txtCantidad.Text) * producto.Multiplo;
 
                         RegistrarPartida(CantidadRegistrar);
                 
@@ -185,6 +191,8 @@ namespace Movil_RIDA
             txtCantidad.Visible = false;
             lblTrnsfrDocNbr.Text = "# Transferencia: " + RecepcionPlanta.TrnsfrDocNbr;
             txtCB.Focus();
+            // instanciamos la clase Product
+            producto = new Product();
         }
 
         private void Partidas_Closed(object sender, EventArgs e)
@@ -225,8 +233,7 @@ namespace Movil_RIDA
             if (resp == DialogResult.Yes)
             {
                 //Registramos la partida en la Base de datos
-                int res = recepcion.EliminarPartida(RecepcionPlanta.TrnsfrDocNbr, recepcion.Clave, Global.Usuario);
-
+                int res = recepcion.EliminarPartida(RecepcionPlanta.TrnsfrDocNbr, producto.Clave, Global.Usuario);
                 if (res > 0)
                 {
                     //Se eliminó la partida

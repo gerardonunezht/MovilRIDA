@@ -104,28 +104,6 @@ namespace Movil_RIDA
             } 
         }
 
-        public DataRow AgregarLocalizacionExcepcion(string pConteo, string pArticulo, string pLocalizacion, float pCantidad, string pUsuario)
-        {
-
-            Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@Conteo", pConteo);
-            Parametros.Add("@Clave", pArticulo);
-            Parametros.Add("@Localizacion", pLocalizacion);
-            Parametros.Add("@ContCantidadeo", pCantidad);
-            Parametros.Add("@Usuario", pUsuario);
-            var datos = db.ExecuteSelect("ADN_Conteos_AgregarLocalizacionExcepcion", Parametros);
-
-            if (datos.Rows.Count > 0)
-            {
-                return datos.Rows[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
         /******************************************/
 
         /*
@@ -360,8 +338,22 @@ namespace Movil_RIDA
 		}
         */
 
+        public DataRow AgregarLocalizacionExcepcion(string pConteo, string pArticulo, string pLocalizacion, float pCantidad, string pUsuario)
+        {
+            Dictionary<string, object> Parametros = new Dictionary<string, object>();
+            Parametros.Add("@Conteo", pConteo);
+            Parametros.Add("@Clave", pArticulo);
+            Parametros.Add("@Localizacion", pLocalizacion);
+            Parametros.Add("@Cantidad", pCantidad);
+            Parametros.Add("@Usuario", pUsuario);
+            DataTable datos;
+            datos= db.ExecuteSelect("ADN_Conteos_AgregarLocalizacionExcepcion", Parametros);
+            return datos.Rows[0];
+
+        }
+
         /*
-        public DataRow agregarLocalizacionExcepcion(string pConteo, string pArticulo, string pLocalizacion, float pCantidad, string pUsuario)
+        public DataRow AgregarLocalizacionExcepcion(string pConteo, string pArticulo, string pLocalizacion, float pCantidad, string pUsuario)
         {
 
             SqlDataAdapter da = new SqlDataAdapter();
@@ -401,8 +393,8 @@ namespace Movil_RIDA
             }//finally
             return null;
         }
+        
         */
-
         //confirmar obsolescencia *
         /*
         public string finalizarConteo(string pConteo)

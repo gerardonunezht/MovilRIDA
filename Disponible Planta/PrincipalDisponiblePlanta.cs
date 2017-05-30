@@ -8,6 +8,7 @@ namespace Movil_RIDA
     public partial class PrincipalDisponiblePlanta : Form
     {
         DisponiblePlanta disp = new DisponiblePlanta();
+        Product producto = new Product();
 
         public PrincipalDisponiblePlanta()
         {
@@ -16,69 +17,55 @@ namespace Movil_RIDA
 
         private void PrincipalDisponible_Load(object sender, EventArgs e)
         {
-           
-            //Limpiamos objetos al iniciar
-            DisponiblePlanta.ID = null;
-            DisponiblePlanta.ClaveColocar = null;
-            DisponiblePlanta.DescripcionProd = null;
-            DisponiblePlanta.CantColocar = "0";
-            lbColocar.Text = "A COLOCAR: " + DisponiblePlanta.CantColocar;
-            lbSeleccionado.Text = "SEL.: " + DisponiblePlanta.ClaveColocar;
-
-            btnIniciar.Enabled = false;
-
-
-            DataSet dsError = new DataSet();
-            DataRow drError;
-            
-            //Mandamos llamar el método que verifica si existen transferencias fallidas (es decir, con error)
-            dsError = disp.VerificarTransferenciaError(Global.Usuario);
-            int TransferenciasDisponibleConError = dsError.Tables[0].Rows.Count;
-
-
-            //Si existen abastos con status de Error, entonces:
-            if (TransferenciasDisponibleConError > 0)
-            {
-                //Asignamos el número de Transferencia que corresponde a la recolección pendiente de Re-Abastecer
-                drError = dsError.Tables[0].Rows[0];
-                DisponiblePlanta.ID = drError["ID"].ToString().TrimEnd();
-                DisponiblePlanta.ClaveColocar = drError["InvtId"].ToString().TrimEnd();
-
-                string msj = string.Format("NO se pudo generar lote de TRANSFERENCIA para Disponible del producto: {0} con ID: {1} ", DisponiblePlanta.ClaveColocar, DisponiblePlanta.ID);
-                
-                /*
-                lbClavesDelSemaforo.Text = "ERROR"; //msj;
-                lbClavesEnRojo.Text = "";
-                lbClavesEnAmarillo.Text = "";
-                lbClavesEnVerde.Text = "";
-                */
-                btnIniciar.Enabled = false;
-                txtSeleccionar.Enabled = false;
-                MessageBox.Show(msj);
-            }
-            else
-            {
-                DataSet ds = disp.obtenerProductosRegistrados();
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    dgDisponible.DataSource = ds.Tables[0];
-                    btnIniciar.Enabled = true;
-                    txtSeleccionar.Enabled = true;
-                    txtSeleccionar.Focus();
-                   
-                }
-            }
             try
             {
+                //Limpiamos objetos al iniciar
+                DisponiblePlanta.ID = null;
+                DisponiblePlanta.ClaveColocar = null;
+                DisponiblePlanta.DescripcionProd = null;
+                DisponiblePlanta.CantColocar = "0";
+                lbColocar.Text = "A COLOCAR: " + DisponiblePlanta.CantColocar;
+                lbSeleccionado.Text = "SEL.: " + DisponiblePlanta.ClaveColocar;
+
+                btnIniciar.Enabled = false;
+
+                DataSet dsError = new DataSet();
+                DataRow drError;
+                
+                //Mandamos llamar el método que verifica si existen transferencias fallidas (es decir, con error)
+                dsError = disp.VerificarTransferenciaError(Global.Usuario);
+                int TransferenciasDisponibleConError = dsError.Tables[0].Rows.Count;
+
+                //Si existen tranferencias con status de Error, entonces:
+                if (TransferenciasDisponibleConError > 0)
+                {
+                    //Asignamos el número de Transferencia que corresponde a la recolección pendiente de Re-Abastecer
+                    drError = dsError.Tables[0].Rows[0];
+                    DisponiblePlanta.ID = drError["ID"].ToString().TrimEnd();
+                    DisponiblePlanta.ClaveColocar = drError["InvtId"].ToString().TrimEnd();
+
+                    string msj = string.Format("NO se pudo generar lote de TRANSFERENCIA para Disponible del producto: {0} con ID: {1} , verificar con SUPERVISOR ADMINISTRATIVO", DisponiblePlanta.ClaveColocar, DisponiblePlanta.ID);
+                    btnIniciar.Enabled = false;
+                    txtSeleccionar.Enabled = false;
+                    MessageBox.Show(msj);
+                }
+                else
+                {
+                    DataSet ds = disp.obtenerProductosRegistrados();
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        dgDisponible.DataSource = ds.Tables[0];
+                        btnIniciar.Enabled = true;
+                        txtSeleccionar.Enabled = true;
+                        txtSeleccionar.Focus();
+                    }
+                }
+            
             }
-
-
             catch (Exception)
             {
-                MessageBox.Show("Error al tratar de obtener los conteos programados.");
+                MessageBox.Show("Error al tratar de obtener los articulos para disponible programados.");
             }
-            
-        
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -137,7 +124,7 @@ namespace Movil_RIDA
             if (e.KeyCode == Keys.Enter)
             {
                 //Validamos que se digite un código a buscar
-                if ((txtSeleccionar.Text == "") || (txtSeleccionar.Text == null))
+                if (string.IsNullOrEmpty(txtSeleccionar.Text))
                 {
                     MessageBox.Show("Debe de registrar un código de producto. ", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     txtSeleccionar.Focus();
@@ -145,14 +132,14 @@ namespace Movil_RIDA
                 else
                 {
                     //Obtenemos los datos generales del codigo de barras capturado                                                       
-                    disp.ObtenerDatosProducto(txtSeleccionar.Text.Trim(), Global.IdProcesoADN);
+                    producto = producto.GetDatosProducto(txtSeleccionar.Text.Trim());
 
-                    if (disp.Clave != "")
+                    if (!string.IsNullOrEmpty(producto.Clave))
                     {
                         DataRow dr;
                         try
                         {
-                            dr = disp.SeleccionarProductoDisponible(disp.Clave);
+                            dr = disp.SeleccionarProductoDisponible(producto.Clave);
 
                             DisponiblePlanta.ID = dr["ID"].ToString().Trim();
                             DisponiblePlanta.ClaveColocar = dr["Invtid"].ToString().Trim();
@@ -160,14 +147,14 @@ namespace Movil_RIDA
                             DisponiblePlanta.CantColocar = dr["Cantidad"].ToString().Trim();
                             lbColocar.Text = "A COLOCAR: " + DisponiblePlanta.CantColocar;
                             lbDescripcion.Text = DisponiblePlanta.DescripcionProd;
-                            lbSeleccionado.Text = "SEL.: " + DisponiblePlanta.ClaveColocar;   
+                            lbSeleccionado.Text = "SEL.: " + DisponiblePlanta.ClaveColocar;
                         }
                         catch (Exception)
                         {
                             lbColocar.Text = "A COLOCAR: ";
                             lbDescripcion.Text = "";
                             lbSeleccionado.Text = "SEL.: ";
-                        }                                               
+                        }
                     }
                     else
                     {
@@ -178,7 +165,6 @@ namespace Movil_RIDA
                 }
                 txtSeleccionar.Text = "";
             }
-
         }
 
     }
