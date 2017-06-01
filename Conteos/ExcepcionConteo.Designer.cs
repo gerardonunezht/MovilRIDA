@@ -109,7 +109,7 @@
             this.label3.Location = new System.Drawing.Point(13, 164);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(214, 20);
-            this.label3.Text = "CANIDAD:";
+            this.label3.Text = "CANTIDAD:";
             // 
             // lbProductoExcepcion
             // 

@@ -123,7 +123,7 @@
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(183, 23);
             this.txtUsuario.TabIndex = 21;
-            this.txtUsuario.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtID_KeyUp);
+            this.txtUsuario.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtID_KeyUp);
             // 
             // Login
             // 

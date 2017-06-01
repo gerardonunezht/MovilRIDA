@@ -79,6 +79,7 @@ namespace Movil_RIDA
                 lblComment.Visible = true;
 
                 btnIniciar.Enabled = true;
+                btnIniciar.Focus();
             }
             else
             {
@@ -90,6 +91,15 @@ namespace Movil_RIDA
         private void PrincipalRecepcionPlanta_Load(object sender, EventArgs e)
         {
             LimpiarObjetos();
+            if (recepcion.ContinuarRecepcionPartidaPlanta(Global.Usuario))
+            {
+                MessageBox.Show("Su usuario tiene pendiente de recibir la transferencia: "+RecepcionPlanta.TrnsfrDocNbr);
+                this.Close();
+                PartidasPlanta fPartidas = new PartidasPlanta();
+                fPartidas.Show();
+            }
+
+                
         }
 
         private void btnIniciar_Click(object sender, EventArgs e)

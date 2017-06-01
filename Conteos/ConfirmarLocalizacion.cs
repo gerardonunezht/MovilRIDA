@@ -65,9 +65,16 @@ namespace Movil_RIDA
                 if ((BuscarLocalizacion(txtLocalizacion.Text.Trim().ToUpper())) || (txtLocalizacion.Text.Trim().ToUpper() == "0"))
                 {
                     Conteo.Localizacion = txtLocalizacion.Text.Trim().ToUpper();
-                    this.Close();
-                    RegistrarConteo fContar = new RegistrarConteo();
-                    fContar.Show();
+
+                    try
+                    {
+                        this.Close();
+                        RegistrarConteo fContar = new RegistrarConteo();
+                        fContar.Show();
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
                 else
                 {

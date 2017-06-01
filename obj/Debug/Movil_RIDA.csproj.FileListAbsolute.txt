@@ -60,12 +60,9 @@ C:\Proyectos VS2008\MovilRIDA\bin\Debug\System.Data.SqlClient.dll
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\ResolveAssemblyReference.cache
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Abastecer.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalAbastoPkg.resources
-C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Excepcion.resources
-C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ReAbastecer.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RecolectarCantidades.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.RecolectarLoc.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Recolectar.resources
-C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.Acceso.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ConfirmarLocalizacion.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.ExcepcionConteo.resources
 C:\Proyectos VS2008\MovilRIDA\obj\Debug\Movil_RIDA.PrincipalConteos.resources

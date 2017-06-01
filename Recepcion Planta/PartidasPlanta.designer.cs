@@ -96,7 +96,7 @@
             this.txtCB.MaxLength = 30;
             this.txtCB.Name = "txtCB";
             this.txtCB.Size = new System.Drawing.Size(193, 23);
-            this.txtCB.TabIndex = 20;
+            this.txtCB.TabIndex = 0;
             this.txtCB.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtCB_KeyUp);
             // 
             // label2

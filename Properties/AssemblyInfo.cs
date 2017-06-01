@@ -29,7 +29,7 @@ using System.Runtime.InteropServices;
 //      Número de versión de compilación
 //      Revisión
 //
-[assembly: AssemblyVersion("2.6.0.0")]
+[assembly: AssemblyVersion("2.7.0.0")]
 
 // El atributo siguiente es para suprimir la advertencia sobre FxCop "CA2232 : Microsoft.Usage : Agregue STAThreadAttribute al ensamblado"
 // como aplicación para dispositivos no admite el subproceso STA.
