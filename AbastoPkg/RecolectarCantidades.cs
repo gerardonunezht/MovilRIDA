@@ -70,7 +70,7 @@ namespace Movil_RIDA
             else
             {
                 //Agregamos la recolección y regresamos la suma total de lo recolectado                
-                repositorio.PostAgregarRecoleccion(Recoleccion.ID, Recoleccion.Clave, Recoleccion.LocalizacionOrigenRecolectar, pCantidadRecolectada, Recoleccion.LocalizacionPkg, Global.Usuario);
+                repositorio.AgregarRecoleccion(Recoleccion.ID, Recoleccion.Clave, Recoleccion.LocalizacionOrigenRecolectar, pCantidadRecolectada, Recoleccion.LocalizacionPkg, Global.Usuario);
                 txtCB.Text = string.Empty;
                 lbRecolectado.Text = recolectadoLoc.ToString();
                 btnCero.Enabled = false;
@@ -215,8 +215,8 @@ namespace Movil_RIDA
             if ( resp==DialogResult.Yes)
             {
                 // omitimos la localización marcandola con cero            
-                repositorio.PostAgregarRecoleccion(Recoleccion.ID, Recoleccion.Clave, Recoleccion.LocalizacionOrigenRecolectar, 0, Recoleccion.LocalizacionPkg, Global.Usuario);
-                //Regresamos a la pantalla de SolicitarLoc para solicitar otra
+                repositorio.AgregarRecoleccion(Recoleccion.ID, Recoleccion.Clave, Recoleccion.LocalizacionOrigenRecolectar, 0, Recoleccion.LocalizacionPkg, Global.Usuario);
+                // Regresamos a la pantalla de SolicitarLoc para solicitar otra
                 SolicitarLocalizacion();                
             }            
         }

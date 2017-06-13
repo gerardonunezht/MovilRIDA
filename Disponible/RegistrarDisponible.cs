@@ -85,7 +85,7 @@ namespace Movil_RIDA
 
                         var aceptaMultiplo = producto.PermiteCapturarMultiploEmpaque(producto.Clave, Global.IdProcesoADN);
 
-                        if ( (aceptaMultiplo == "SI") || (producto.Nivel > 1) )
+                        if ( (aceptaMultiplo == "SI") || (producto.Nivel >= 1) )
                         {
                             txtCantidad.Enabled = true;
                             txtCantidad.Focus();

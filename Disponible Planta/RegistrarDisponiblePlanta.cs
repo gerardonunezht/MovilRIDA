@@ -89,7 +89,7 @@ namespace Movil_RIDA
                         lbDescripcion.Text = producto.Descripcion;
                         txtMultiplo.Text = producto.Multiplo.ToString();
 
-                        if ((producto.PermiteCapturarMultiplo == "SI") || (producto.Nivel > 1))
+                        if ((producto.PermiteCapturarMultiplo == "SI") || (producto.Nivel >= 1))
                         {
                             txtCantidad.Enabled = true;
                             txtCantidad.Focus();

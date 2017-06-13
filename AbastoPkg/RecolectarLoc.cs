@@ -10,7 +10,7 @@ namespace Movil_RIDA
         private Single recolectado { get; set; }
         private Single porRecolectar { get; set; }
         private Single porRecolectarLoc { get; set; }
-        private Single porAbastecer { get; set; }
+        //private Single porAbastecer { get; set; }
 
         Recoleccion repositorio = new Recoleccion();
 
@@ -38,7 +38,7 @@ namespace Movil_RIDA
                 lbDescripcion.Text = Recoleccion.Descripcion;
                 lbPorAbastecer.Text = "Recolección: " +Recoleccion.PorAbastecer.ToString();
                 
-                var drExistenciaLocalizacion = repositorio.GetExistenciaLocalizacion(Recoleccion.ID.ToString(), Recoleccion.Clave);
+                var drExistenciaLocalizacion = repositorio.ObtenerExistenciaLocalizacion(Recoleccion.ID.ToString(), Recoleccion.Clave);
 
                 //
                 this.localizacion = drExistenciaLocalizacion[0].ToString();
@@ -85,7 +85,7 @@ namespace Movil_RIDA
                     //Asignamos el valor de la cantidad a Recolectar de la localización
                     Recoleccion.PorRecolectarLoc = this.porRecolectarLoc;
                     Recoleccion.LocalizacionOrigenRecolectar = this.localizacion;
-                    lbCantidad.Text = "Tomar: " +this.porRecolectarLoc.ToString() + " de Loc. ";             
+                    lbCantidad.Text = "Tomar " +this.porRecolectarLoc.ToString() + " de Loc. ";             
                 }
             }
             catch (Exception)
@@ -123,8 +123,7 @@ namespace Movil_RIDA
         private void txtLocalizacion_KeyUp(object sender, KeyEventArgs e)
         {
             
-            // Valida que la localización capturada sea igual a la localización mostrada en la pantalla para poder continuar           
-            
+            // Valida que la localización capturada sea igual a la localización mostrada en la pantalla para poder continuar                       
             if (e.KeyCode == Keys.Enter)
             {
                 tmLocalizacion.Enabled = false;

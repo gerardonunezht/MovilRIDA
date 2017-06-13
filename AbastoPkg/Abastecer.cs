@@ -22,14 +22,12 @@ namespace Movil_RIDA
             try
             {
                 //Obtenemos la primer partida recolectada a Re-Abastecer
-                //dsPartidas = abasto.ObtenerRecoleccionParaReAbastecer(AbastoPkg.Transferencia);
                 dtPartidas = repositorio.ObtenerRecoleccionParaReAbastecer(Recoleccion.ID);
 
                 //Si la consulta regresa datos (Partidas), entonces
                 if (dtPartidas.Rows.Count > 0)
                 {
                     //Mostramos en pantalla la clave del producto a Re-Abastecer y la Localización donde se deberá de colocar 
-                    //drPartida = dsPartidas.Tables[0].Rows[0];
                     drPartida = dtPartidas.Rows[0];
 
                     if (drPartida["InvtId"].ToString() == "NA")
@@ -67,11 +65,6 @@ namespace Movil_RIDA
 
             txtConfirmarProducto.Focus();
 
-            //Establecemos el inicio del proceso de ReAbasto
-            //abasto.IniciarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
-            
-            //repositorio.IniciarReAbasto(Recoleccion.ID);
-            
             //Solicitamos las partidas correspondientes al Re-Abasto
             SolicitarPartidaParaReAbastecer();            
         }
@@ -84,10 +77,8 @@ namespace Movil_RIDA
 
                 if ((txtConfirmarLocalizacion.Text.ToUpper() == lbConfirmarLocalizacion.Text.Trim()) || (txtConfirmarLocalizacion.Text == "."))
                 {
-                    //abasto.FinalizarReAbasto(Convert.ToInt32(AbastoPkg.Transferencia));
                     repositorio.FinalizarReAbasto(Recoleccion.ID);
-
-                    //AbastoPkg.Transferencia = "";//Limpiamos la variable de No. de Transferencia  
+  
                     Recoleccion.ID = 0;
                     Recoleccion.ID = 0;
                     MessageBox.Show("ABASTO COMPLETADO!!!", "AVISO!!!", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button2);
@@ -112,14 +103,11 @@ namespace Movil_RIDA
 
         private void txtConfirmarProducto_KeyUp(object sender, KeyEventArgs e)
         {
-            //DataSet ds = new DataSet();
-
             if (e.KeyCode == Keys.Enter)
             {
                 //Obtenemos los datos generales del codigo de barras capturado, se asignan a la varibale Clave y Multiplo
                 //de la clase heredada producto                                  
-                //abasto.ObtenerDatosProducto(txtConfirmarProducto.Text.Trim(), "");
-
+ 
                 Product producto = new Product();
                 producto = producto.GetDatosProducto(txtConfirmarProducto.Text.Trim());
 
@@ -160,7 +148,6 @@ namespace Movil_RIDA
             PrincipalAbastoPkg fPrincipal = new PrincipalAbastoPkg();
             fPrincipal.Show();   
         }
-
 
     }
 }
