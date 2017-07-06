@@ -49,27 +49,12 @@ namespace Movil_RIDA
             }
             else if (semaforo.Semaforo == "AMARILLO")
             {
-                /*     
-                lbSemaforo.BackColor = Color.Yellow;
-                lbSemaforo.ForeColor = Color.Black;
-                lbNivelBuffer.ForeColor = Color.Yellow;
-
-                //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
-                lbClave.Text = semaforo.Clave;
-                lbLockPkg.Text = semaforo.LocalizacionPkg;
-                lbDescripcion.Text = semaforo.Descripcion;
-                lbSemaforo.Text = semaforo.Semaforo;
-                lbBuffer.Text = semaforo.BufferPkg.ToString();
-                lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
-                btnLocalizaciones.Focus();
-                */
-
                 if (this.rojas == 0)
                 {
                     lbSemaforo.BackColor = Color.Yellow;
                     lbSemaforo.ForeColor = Color.Black;
                     lbNivelBuffer.ForeColor = Color.Yellow;
-
+                    
                     //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
                     lbClave.Text = semaforo.Clave;
                     lbLockPkg.Text = semaforo.LocalizacionPkg;
