@@ -11,6 +11,8 @@ namespace Movil_RIDA
         private ADN_SemaforoAbastoPkg semaforo;
         public List<ADN_SemaforoAbastoPkg> listadoClaves;
         private int index = 0;
+        public int rojas { get; set; }
+        public int amarillas { get; set; }
 
         //
         public Recolectar()
@@ -19,23 +21,15 @@ namespace Movil_RIDA
         }
 
         //
-        private void SolicitarClaveRecolectar()
+        private void SolicitarClaveRecolectar(int idx)
         {
-            semaforo = new ADN_SemaforoAbastoPkg();                        
+            semaforo = new ADN_SemaforoAbastoPkg();
 
-            semaforo = listadoClaves[index];
+            semaforo = listadoClaves[idx];
 
             lbSemaforo.Text = "";
             lbBuffer.Text = "";
             lbNivelBuffer.Text = "";
-
-            //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
-            lbClave.Text = semaforo.Clave;
-            lbLockPkg.Text = semaforo.LocalizacionPkg;
-            lbDescripcion.Text = semaforo.Descripcion;
-            lbSemaforo.Text = semaforo.Semaforo;
-            lbBuffer.Text = semaforo.BufferPkg.ToString();
-            lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
 
             //Verificamos el texto del semforo para indicar el color correspondiente a la etiqueta
             if (semaforo.Semaforo == "ROJO")
@@ -43,40 +37,83 @@ namespace Movil_RIDA
                 lbSemaforo.BackColor = Color.Red;
                 lbSemaforo.ForeColor = Color.White;
                 lbNivelBuffer.ForeColor = Color.Red;
+
+                //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
+                lbClave.Text = semaforo.Clave;
+                lbLockPkg.Text = semaforo.LocalizacionPkg;
+                lbDescripcion.Text = semaforo.Descripcion;
+                lbSemaforo.Text = semaforo.Semaforo;
+                lbBuffer.Text = semaforo.BufferPkg.ToString();
+                lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
+                btnLocalizaciones.Focus();
             }
-            if (semaforo.Semaforo == "AMARILLO")
+            else if (semaforo.Semaforo == "AMARILLO")
             {
+                //this.index = 0; //inicializamos el indice a 0
+                //SolicitarClaveRecolectar(0); //volvemos a empezar 
+                         
                 lbSemaforo.BackColor = Color.Yellow;
                 lbSemaforo.ForeColor = Color.Black;
                 lbNivelBuffer.ForeColor = Color.Yellow;
-            }
-            if (semaforo.Semaforo == "VERDE")
-            {
-                lbSemaforo.BackColor = Color.Green;
-                lbSemaforo.ForeColor = Color.White;
-                lbNivelBuffer.ForeColor = Color.Green;
-            }
-            btnLocalizaciones.Focus();
 
-            index++;
+                //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
+                lbClave.Text = semaforo.Clave;
+                lbLockPkg.Text = semaforo.LocalizacionPkg;
+                lbDescripcion.Text = semaforo.Descripcion;
+                lbSemaforo.Text = semaforo.Semaforo;
+                lbBuffer.Text = semaforo.BufferPkg.ToString();
+                lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
+                btnLocalizaciones.Focus();
+                
+            }
+            else if (semaforo.Semaforo == "VERDE")
+            {
+                //this.index = 0; //inicializamos el indice a 0
+                //SolicitarClaveRecolectar(0); //volvemos a empezar 
+                
+                if ((this.rojas==0) && (this.amarillas==0))
+                {
+                    lbSemaforo.BackColor = Color.Green;
+                    lbSemaforo.ForeColor = Color.Black;
+                    lbNivelBuffer.ForeColor = Color.Yellow;
+
+                    //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
+                    lbClave.Text = semaforo.Clave;
+                    lbLockPkg.Text = semaforo.LocalizacionPkg;
+                    lbDescripcion.Text = semaforo.Descripcion;
+                    lbSemaforo.Text = semaforo.Semaforo;
+                    lbBuffer.Text = semaforo.BufferPkg.ToString();
+                    lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
+                    btnLocalizaciones.Focus();
+                }
+                else
+                {
+                    //Las verdes no seran mostradas
+                    this.index = 0; //inicializamos el indice a 0
+                    SolicitarClaveRecolectar(0); //volvemos a empezar 
+                }
+                
+            }            
         }
 
         //
         private void frmRecolectar_Load(object sender, EventArgs e)
         {
-            SolicitarClaveRecolectar();                
+            this.index = 0;
+            SolicitarClaveRecolectar(index);              
         }
 
         //
         private void btnLocalizaciones_Click(object sender, EventArgs e)
         {
-            var respuesta = repositorio.GetIniciarRecoleccion(Global.Usuario, semaforo.LocalizacionPkg);
+            var respuesta = repositorio.IniciarRecoleccion(Global.Usuario, semaforo.LocalizacionPkg);
 
             if (respuesta!=null)
             {
                 // asignamos los datos correspondientes a las variables statitcas de la clase Recoleccion
                 Recoleccion.ID = Convert.ToInt32(respuesta[0]);
                 Recoleccion.PorAbastecer = Convert.ToSingle(respuesta[1]);
+
                 Recoleccion.Clave = semaforo.Clave;
                 Recoleccion.Descripcion = semaforo.Descripcion;
                 Recoleccion.LocalizacionPkg = semaforo.LocalizacionPkg;
@@ -99,7 +136,9 @@ namespace Movil_RIDA
         //
         private void btnSiguiente_Click(object sender, EventArgs e)
         {
-            SolicitarClaveRecolectar();
+            this.index = this.index + 1;
+            //MessageBox.Show(index.ToString());
+            SolicitarClaveRecolectar(this.index);
         }
 
     }

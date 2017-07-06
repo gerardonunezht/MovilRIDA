@@ -11,6 +11,11 @@ namespace Movil_RIDA
         Recoleccion repositorio = new Recoleccion();
         List<ADN_SemaforoAbastoPkg> lstClavesRecolectar;
 
+        int rojas = 0;
+        int amarillas = 0;
+        int verdes = 0;
+
+
         public PrincipalAbastoPkg()
         {
             InitializeComponent();            
@@ -66,9 +71,7 @@ namespace Movil_RIDA
             }
             else
             {
-                int rojas = 0;
-                int amarillas = 0;
-                int verdes = 0;
+
 
                 lbClavesDelSemaforo.Text = "Generando cálculo... ";
                 
@@ -76,7 +79,7 @@ namespace Movil_RIDA
                 repositorio.GenerarAbastoPicking(Global.Usuario);
 
                 lstClavesRecolectar = new List<ADN_SemaforoAbastoPkg>();
-                lstClavesRecolectar = repositorio.GetClavesPorRecolectar(Global.Usuario);
+                lstClavesRecolectar = repositorio.ObtenerClavesPorRecolectar(Global.Usuario);
 
                 foreach (var item in lstClavesRecolectar)
                 {
@@ -126,6 +129,8 @@ namespace Movil_RIDA
                 this.Close();
                 Recolectar fRecolectar = new Recolectar();
                 fRecolectar.listadoClaves = lstClavesRecolectar; //le pasamos al formulario el objeto que contiene el listado de las claves por abastecer
+                fRecolectar.rojas = this.rojas; //le pasamos al formulario el total de claves contabilizadas en color rojo
+                fRecolectar.amarillas = this.amarillas; //le pasamos al formulario el total de claves contabilizadas en color amarillo
                 fRecolectar.Show();
             }
             catch (Exception)
