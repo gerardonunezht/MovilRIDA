@@ -49,9 +49,7 @@ namespace Movil_RIDA
             }
             else if (semaforo.Semaforo == "AMARILLO")
             {
-                //this.index = 0; //inicializamos el indice a 0
-                //SolicitarClaveRecolectar(0); //volvemos a empezar 
-                         
+                /*     
                 lbSemaforo.BackColor = Color.Yellow;
                 lbSemaforo.ForeColor = Color.Black;
                 lbNivelBuffer.ForeColor = Color.Yellow;
@@ -64,13 +62,32 @@ namespace Movil_RIDA
                 lbBuffer.Text = semaforo.BufferPkg.ToString();
                 lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
                 btnLocalizaciones.Focus();
-                
+                */
+
+                if (this.rojas == 0)
+                {
+                    lbSemaforo.BackColor = Color.Yellow;
+                    lbSemaforo.ForeColor = Color.Black;
+                    lbNivelBuffer.ForeColor = Color.Yellow;
+
+                    //Asignamos los datos obtenidos de la clave a las etiquetas visuales de la aplicación            
+                    lbClave.Text = semaforo.Clave;
+                    lbLockPkg.Text = semaforo.LocalizacionPkg;
+                    lbDescripcion.Text = semaforo.Descripcion;
+                    lbSemaforo.Text = semaforo.Semaforo;
+                    lbBuffer.Text = semaforo.BufferPkg.ToString();
+                    lbNivelBuffer.Text = Math.Round(Convert.ToDecimal(semaforo.NivelBuffer)) + "%";
+                    btnLocalizaciones.Focus();
+                }
+                else
+                {
+                    //Las verdes no seran mostradas
+                    this.index = 0; //inicializamos el indice a 0
+                    SolicitarClaveRecolectar(0); //volvemos a empezar 
+                }
             }
             else if (semaforo.Semaforo == "VERDE")
-            {
-                //this.index = 0; //inicializamos el indice a 0
-                //SolicitarClaveRecolectar(0); //volvemos a empezar 
-                
+            {                
                 if ((this.rojas==0) && (this.amarillas==0))
                 {
                     lbSemaforo.BackColor = Color.Green;
@@ -93,7 +110,7 @@ namespace Movil_RIDA
                     SolicitarClaveRecolectar(0); //volvemos a empezar 
                 }
                 
-            }            
+            }  
         }
 
         //
@@ -110,26 +127,39 @@ namespace Movil_RIDA
 
             if (respuesta!=null)
             {
-                // asignamos los datos correspondientes a las variables statitcas de la clase Recoleccion
-                Recoleccion.ID = Convert.ToInt32(respuesta[0]);
-                Recoleccion.PorAbastecer = Convert.ToSingle(respuesta[1]);
-
-                Recoleccion.Clave = semaforo.Clave;
-                Recoleccion.Descripcion = semaforo.Descripcion;
-                Recoleccion.LocalizacionPkg = semaforo.LocalizacionPkg;
-                Recoleccion.BufferPkg = semaforo.BufferPkg;
-                Recoleccion.MultiploAbastoPkg = semaforo.MultiploAbastoPkg;
-                Recoleccion.LocPermiteCapturarMultiplo = semaforo.AceptaMultiploEmpaque;
-
-                try
+             try
                 {
-                    this.Close();
-                    RecolectarLoc fRecolectarLoc = new RecolectarLoc();
-                    fRecolectarLoc.Show();
+                    // asignamos los datos correspondientes a las variables statitcas de la clase Recoleccion
+                    Recoleccion.ID = Convert.ToInt32(respuesta[0]);
+                    Recoleccion.PorAbastecer = Convert.ToSingle(respuesta[1]);
+
+                    Recoleccion.Clave = semaforo.Clave;
+                    Recoleccion.Descripcion = semaforo.Descripcion;
+                    Recoleccion.LocalizacionPkg = semaforo.LocalizacionPkg;
+                    Recoleccion.BufferPkg = semaforo.BufferPkg;
+                    Recoleccion.MultiploAbastoPkg = semaforo.MultiploAbastoPkg;
+                    Recoleccion.LocPermiteCapturarMultiplo = semaforo.AceptaMultiploEmpaque;
+
+                    SolicitarLocalizacion();
                 }
                 catch (Exception)
                 {
+                    MessageBox.Show("No se puede calcular la cantidad por abastecer, verifique que el NIVEL para abasto asignado sea el correcto.");
+                    //throw;
                 }
+            }
+        }
+
+        private void SolicitarLocalizacion()
+        {
+            try
+            {
+                this.Close();
+                RecolectarLoc fRecolectarLoc = new RecolectarLoc();
+                fRecolectarLoc.Show();
+            }
+            catch (Exception)
+            {
             }
         }
 
