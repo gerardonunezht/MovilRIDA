@@ -36,8 +36,9 @@
             this.lbColocar = new System.Windows.Forms.Label();
             this.lbDescripcion = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtSeleccionar = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnActualizar = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,10 +75,10 @@
             // btnIniciar
             // 
             this.btnIniciar.BackColor = System.Drawing.Color.Black;
-            this.btnIniciar.ForeColor = System.Drawing.Color.Yellow;
-            this.btnIniciar.Location = new System.Drawing.Point(11, 227);
+            this.btnIniciar.ForeColor = System.Drawing.Color.LimeGreen;
+            this.btnIniciar.Location = new System.Drawing.Point(127, 227);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(226, 30);
+            this.btnIniciar.Size = new System.Drawing.Size(110, 30);
             this.btnIniciar.TabIndex = 22;
             this.btnIniciar.Text = "INICIAR";
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
@@ -106,6 +107,7 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.Controls.Add(this.btnActualizar);
             this.panel1.Controls.Add(this.txtSeleccionar);
             this.panel1.Controls.Add(this.dgDisponible);
             this.panel1.Controls.Add(this.lbDescripcion);
@@ -118,6 +120,14 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(245, 295);
             // 
+            // txtSeleccionar
+            // 
+            this.txtSeleccionar.Location = new System.Drawing.Point(11, 14);
+            this.txtSeleccionar.Name = "txtSeleccionar";
+            this.txtSeleccionar.Size = new System.Drawing.Size(188, 23);
+            this.txtSeleccionar.TabIndex = 28;
+            this.txtSeleccionar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSeleccionar_KeyUp);
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -126,13 +136,16 @@
             this.pictureBox1.Size = new System.Drawing.Size(32, 23);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             // 
-            // txtSeleccionar
+            // btnActualizar
             // 
-            this.txtSeleccionar.Location = new System.Drawing.Point(11, 14);
-            this.txtSeleccionar.Name = "txtSeleccionar";
-            this.txtSeleccionar.Size = new System.Drawing.Size(188, 23);
-            this.txtSeleccionar.TabIndex = 28;
-            this.txtSeleccionar.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtSeleccionar_KeyUp);
+            this.btnActualizar.BackColor = System.Drawing.Color.Black;
+            this.btnActualizar.ForeColor = System.Drawing.Color.Yellow;
+            this.btnActualizar.Location = new System.Drawing.Point(11, 227);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(110, 30);
+            this.btnActualizar.TabIndex = 33;
+            this.btnActualizar.Text = "ACTUALIZAR";
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // PrincipalDisponiblePlanta
             // 
@@ -165,5 +178,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox txtSeleccionar;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnActualizar;
     }
 }

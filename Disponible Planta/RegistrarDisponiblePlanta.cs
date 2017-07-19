@@ -24,8 +24,8 @@ namespace Movil_RIDA
             DataRow dr;
 
             //Registramos la partida en la Base de datos          
-            dr = disp.registrarDisponiblePlanta(DisponiblePlanta.ID, DisponiblePlanta.Localizacion, txtCB.Text, Cantidad, Global.Usuario);
-
+            //dr = disp.registrarDisponiblePlanta(DisponiblePlanta.ID, DisponiblePlanta.Localizacion, txtCB.Text, Cantidad, Global.Usuario);
+            dr = disp.registrarDisponiblePlanta(DisponiblePlanta.Localizacion, txtCB.Text, Cantidad, Global.Usuario);
             NoError = dr[0].ToString();
             MensajeError = dr[1].ToString();
             CantidadTotal = dr[2].ToString();
@@ -140,7 +140,7 @@ namespace Movil_RIDA
             if (resp == DialogResult.Yes)
             {
                 //Eliminamos el último registro insertado                
-                CantidadTotal = disp.eliminarRegistroDisponible(DisponiblePlanta.ID, Global.Usuario);
+                CantidadTotal = disp.eliminarRegistroDisponible(Global.Usuario,DisponiblePlanta.ClaveColocar,DisponiblePlanta.Localizacion);
                 if (!string.IsNullOrEmpty(CantidadTotal))
                 {
                     //Se eliminó la partida
@@ -162,7 +162,7 @@ namespace Movil_RIDA
 
                 if (result == DialogResult.Yes)
                 {
-                    disp.finalizarDisponible(DisponiblePlanta.ID);
+                    disp.finalizarDisponible(DisponiblePlanta.ClaveColocar,Global.Usuario,DisponiblePlanta.Localizacion);
                     this.Close();
                     PrincipalDisponiblePlanta fPrincipal = new PrincipalDisponiblePlanta();
                     fPrincipal.Show();

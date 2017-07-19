@@ -7,3 +7,6 @@ obj/Debug/Movil_RIDA.exe
 obj/Debug/Movil_RIDA.csproj.GenerateResource.Cache
 obj/Debug/Movil_RIDA.pdb
 obj/Debug/ResolveAssemblyReference.cache
+*.exe
+bin/Debug/Movil_RIDA.exe
+*.pdb

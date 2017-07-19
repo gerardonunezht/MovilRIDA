@@ -44,10 +44,11 @@ namespace Movil_RIDA
                     DisponiblePlanta.ID = drError["ID"].ToString().TrimEnd();
                     DisponiblePlanta.ClaveColocar = drError["InvtId"].ToString().TrimEnd();
 
-                    string msj = string.Format("NO se pudo generar lote de TRANSFERENCIA para Disponible del producto: {0} con ID: {1} , verificar con SUPERVISOR ADMINISTRATIVO", DisponiblePlanta.ClaveColocar, DisponiblePlanta.ID);
+                    string msj = string.Format("NO se pudo generar lote de TRANSFERENCIA EN SOLOMON para Disponible del producto: {0} con ID: {1} , verificar con SUPERVISOR ADMINISTRATIVO", DisponiblePlanta.ClaveColocar, DisponiblePlanta.ID);
                     btnIniciar.Enabled = false;
                     txtSeleccionar.Enabled = false;
                     MessageBox.Show(msj);
+                    this.Hide();
                 }
                 else
                 {
@@ -92,7 +93,7 @@ namespace Movil_RIDA
         {
             if (DisponiblePlanta.ClaveColocar != null)
             {
-                DataRow resp = disp.iniciarProcesoDisponiblePlanta(DisponiblePlanta.ID, Global.Usuario);
+                DataRow resp = disp.iniciarProcesoDisponiblePlanta(DisponiblePlanta.ClaveColocar, Global.Usuario,DisponiblePlanta.CantColocar);
 
                 if (resp[0].ToString()=="0") 
                 {
@@ -164,6 +165,18 @@ namespace Movil_RIDA
                     }
                 }
                 txtSeleccionar.Text = "";
+            }
+        }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            DataSet ds = disp.obtenerProductosRegistrados();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                dgDisponible.DataSource = ds.Tables[0];
+                btnIniciar.Enabled = true;
+                txtSeleccionar.Enabled = true;
+                txtSeleccionar.Focus();
             }
         }
 

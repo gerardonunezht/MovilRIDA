@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -66,12 +67,14 @@ namespace Movil_RIDA.Clases
 
 
 
-        public DataRow iniciarProcesoDisponiblePlanta(string pID, string pUsuario)
+        public DataRow iniciarProcesoDisponiblePlanta(string pClave, string pUsuario, string pCantidadColocar)
         {
             DataRow registro = null;
             Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@ID", pID);
+            Parametros.Add("@InvtID", pClave);            
             Parametros.Add("@Usuario", pUsuario);
+            Parametros.Add("@CantidadColocar",Convert.ToDouble(pCantidadColocar));
+
 
             var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_IniciarDisponible", Parametros);
             if (datos.Rows.Count > 0)
@@ -303,14 +306,17 @@ namespace Movil_RIDA.Clases
             return null;
         }
         */
-        public string eliminarRegistroDisponible(string pID, string pUsuario)
+        public string eliminarRegistroDisponible(string pUsuario,string pClaveColocar,string pLocalizacion)
         {
             string valor = "";
             DataRow registro = null;
             
             Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@ID", pID);
+            //Parametros.Add("@ID", pID);
+            //Parametros.Add("@Usuario", pUsuario);
             Parametros.Add("@Usuario", pUsuario);
+            Parametros.Add("@Clave", pClaveColocar);
+            Parametros.Add("@Localizacion", pLocalizacion);
 
             var datos = db.ExecuteSelect("ADN_DisponibleRcpPlanta_EliminarRegistroDisponible", Parametros);
             if (datos.Rows.Count > 0)
@@ -359,11 +365,11 @@ namespace Movil_RIDA.Clases
 
         }
             */
-        public DataRow registrarDisponiblePlanta(string pID, string pLocalizacion, string pCodigoBarras, float pCantidad, string pUsuario)
+        public DataRow registrarDisponiblePlanta(string pLocalizacion, string pCodigoBarras, float pCantidad, string pUsuario)
         {
             DataRow registro = null;
             Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@ID", pID);
+           
             Parametros.Add("@LocalizacionColocar", pLocalizacion);
             Parametros.Add("@CodigoBarras", pCodigoBarras);
             Parametros.Add("@Cantidad", pCantidad);
@@ -419,10 +425,13 @@ namespace Movil_RIDA.Clases
           */
 
         //
-        public void finalizarDisponible(string pID)
+        public void finalizarDisponible(string pClaveColocar,string pUsuario, string pLocalizacion)
         {
             Dictionary<string, object> Parametros = new Dictionary<string, object>();
-            Parametros.Add("@ID", pID);
+            //Parametros.Add("@ID", pID);
+            Parametros.Add("@Clave", pClaveColocar);
+            Parametros.Add("@Usuario", pUsuario);
+            Parametros.Add("@Localizacion", pLocalizacion);
             db.ExecuteNonQuery("ADN_DisponibleRcpPlanta_FinalizarDisponible", Parametros);
         }
         /*
