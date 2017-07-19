@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Movil_RIDA
 {
+
     class Global
     {
         //Establecemos la cadena de conexión con la BD establecida en las propiedades del proyecto
